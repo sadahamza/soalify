@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Soalify · Satu Klik, Ribuan Soal Siap Tempur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#315CF5;--primary-h:#2449D8;--soft:#EEF2FF;--bg:#F5F7FC;--surface:#FFFFFF;--surface-2:#F8FAFD;
+  --ink:#17233C;--muted:#64748B;--faint:#94A3B8;--border:#E2E8F0;--border-strong:#CBD5E1;
+  --success:#16B889;--success-ink:#0B8A66;--success-soft:#E8F8F2;
+  --warn:#F59E0B;--warn-ink:#B45309;--warn-soft:#FEF5E6;
+  --danger:#E5484D;--danger-ink:#C2272D;--danger-soft:#FDEDEE;
+  --shadow-sm:0 1px 2px rgba(23,35,60,.05);
+  --shadow:0 1px 2px rgba(23,35,60,.04),0 6px 20px -6px rgba(23,35,60,.10);
+  --shadow-lg:0 12px 40px -12px rgba(23,35,60,.25);
+  --r:16px;--r-sm:12px;--ring:0 0 0 4px rgba(49,92,245,.16);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --primary:#5B7CFF;--primary-h:#7590FF;--soft:#1A2347;--bg:#0D1322;--surface:#141B2D;--surface-2:#182136;
+    --ink:#E7ECF5;--muted:#97A3BA;--faint:#6B7891;--border:#253049;--border-strong:#34405C;
+    --success:#22C997;--success-ink:#4FDDB0;--success-soft:#0F2D27;
+    --warn:#F5A524;--warn-ink:#F7B955;--warn-soft:#30240D;
+    --danger:#F0646A;--danger-ink:#F58A8F;--danger-soft:#341719;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.3);--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -8px rgba(0,0,0,.5);
+    --shadow-lg:0 16px 48px -12px rgba(0,0,0,.6);--ring:0 0 0 4px rgba(91,124,255,.25);color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --primary:#5B7CFF;--primary-h:#7590FF;--soft:#1A2347;--bg:#0D1322;--surface:#141B2D;--surface-2:#182136;
+  --ink:#E7ECF5;--muted:#97A3BA;--faint:#6B7891;--border:#253049;--border-strong:#34405C;
+  --success:#22C997;--success-ink:#4FDDB0;--success-soft:#0F2D27;
+  --warn:#F5A524;--warn-ink:#F7B955;--warn-soft:#30240D;
+  --danger:#F0646A;--danger-ink:#F58A8F;--danger-soft:#341719;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.3);--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -8px rgba(0,0,0,.5);
+  --shadow-lg:0 16px 48px -12px rgba(0,0,0,.6);--ring:0 0 0 4px rgba(91,124,255,.25);color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 "Plus Jakarta Sans",Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+svg.i{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.hidden{display:none!important}
+a{color:var(--primary)}
+
+/* ---------- Header ---------- */
+.nav{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--border)}
+.nav-in{max-width:1080px;margin:auto;padding:12px 20px;display:flex;align-items:center;gap:12px}
+.brand{white-space:nowrap;display:flex;align-items:center;gap:10px;font-weight:800;font-size:16.5px;letter-spacing:-.01em;margin-right:auto;color:var(--ink);text-decoration:none}
+.logo{width:34px;height:34px;border-radius:10px;background:var(--primary);color:#fff;display:grid;place-items:center;box-shadow:0 6px 16px -6px var(--primary)}
+.logo svg{width:20px;height:20px;stroke-width:2}
+.navbtn{display:inline-flex;align-items:center;gap:7px;border:0;background:none;color:var(--muted);padding:8px 11px;border-radius:10px;font-weight:600;font-size:14px;transition:background .15s,color .15s}
+.navbtn:hover{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm)}
+.navbtn svg{width:18px;height:18px}
+
+/* ---------- Layout ---------- */
+.wrap{max-width:1080px;margin:auto;padding:0 20px 64px}
+.hero{padding:40px 0 26px;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;letter-spacing:.09em;color:var(--primary);background:var(--soft);padding:6px 12px;border-radius:999px}
+.badge svg{width:14px;height:14px}
+.hero h1{font-size:clamp(28px,5vw,42px);line-height:1.12;letter-spacing:-.03em;margin:16px 0 10px;font-weight:800}
+.hero p{max-width:620px;margin:0 auto;color:var(--muted);font-size:16px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow)}
+.view{animation:viewIn .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes viewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ---------- Stepper ---------- */
+.stepper{display:flex;align-items:center;gap:8px;padding:14px 18px;margin:0 0 18px;list-style:none}
+.step{display:flex;align-items:center;gap:10px;flex:1;min-width:0;border:0;background:none;padding:4px;border-radius:10px;text-align:left;cursor:default}
+.step[data-clickable="1"]{cursor:pointer}
+.step[data-clickable="1"]:hover .step-label{color:var(--ink)}
+.dot{width:32px;height:32px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:700;font-size:13.5px;border:1.5px solid var(--border-strong);color:var(--muted);background:var(--surface);transition:all .25s}
+.dot svg{width:16px;height:16px;stroke-width:2.6}
+.step-label{font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .2s}
+.step-label small{display:block;font-weight:500;font-size:12px;color:var(--faint)}
+.bar{height:2px;flex:0 1 48px;min-width:12px;background:var(--border);border-radius:2px;position:relative;overflow:hidden}
+.bar::after{content:"";position:absolute;inset:0;background:var(--success);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.bar.done::after{transform:scaleX(1)}
+.step.active .dot{background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:var(--ring)}
+.step.active .step-label{color:var(--ink)}
+.step.done .dot{background:var(--success);border-color:var(--success);color:#fff}
+.step.done .step-label{color:var(--ink)}
+
+/* ---------- Buttons ---------- */
+.btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;border-radius:12px;padding:11px 18px;font-weight:700;font-size:14.5px;min-height:44px;transition:background .15s,border-color .15s,box-shadow .15s,transform .1s,opacity .15s;white-space:nowrap}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible,.navbtn:focus-visible,.fmt:focus-visible,.qhead:focus-visible,.seg button:focus-visible,.radio:focus-visible{outline:none;box-shadow:var(--ring)}
+.btn-primary{background:var(--primary);color:#fff;box-shadow:0 6px 16px -8px var(--primary)}
+.btn-primary:hover{background:var(--primary-h)}
+.btn-secondary{background:var(--surface);border-color:var(--border);color:var(--ink);box-shadow:var(--shadow-sm)}
+.btn-secondary:hover{border-color:var(--border-strong);background:var(--surface-2)}
+.btn-ghost{background:none;color:var(--muted);padding:9px 12px;min-height:38px}
+.btn-ghost:hover{background:var(--surface-2);color:var(--ink)}
+.btn-danger-ghost{background:none;color:var(--danger-ink);padding:9px 12px;min-height:38px}
+.btn-danger-ghost:hover{background:var(--danger-soft)}
+.btn-success{background:var(--success);color:#fff}
+.btn-success:hover{filter:brightness(.95)}
+.btn[disabled]{opacity:.55;cursor:not-allowed;transform:none}
+.btn svg{width:18px;height:18px}
+.spin{width:18px;height:18px;border-radius:50%;border:2.4px solid currentColor;border-right-color:transparent;animation:spin .7s linear infinite;flex:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- Input panel ---------- */
+.panel{padding:22px}
+.panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.panel-head h2{margin:0;font-size:19px;letter-spacing:-.01em}
+.panel-head p{margin:3px 0 0;color:var(--muted);font-size:14px}
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:4px;gap:4px}
+.seg button{border:0;background:none;padding:8px 14px;border-radius:9px;font-weight:600;font-size:14px;color:var(--muted);display:inline-flex;align-items:center;gap:7px;transition:all .15s}
+.seg button svg{width:17px;height:17px}
+.seg button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm)}
+
+.drop{position:relative;border:2px dashed var(--border-strong);border-radius:var(--r);background:var(--surface-2);padding:36px 20px;text-align:center;transition:border-color .2s,background .2s,transform .2s}
+.drop:hover{border-color:var(--primary);background:var(--soft)}
+.drop.drag{border-color:var(--primary);background:var(--soft);transform:scale(1.01)}
+.drop.drag .drop-ic{transform:translateY(-4px) scale(1.06)}
+.drop-ic{width:60px;height:60px;margin:0 auto 14px;border-radius:16px;background:var(--surface);border:1px solid var(--border);display:grid;place-items:center;color:var(--primary);box-shadow:var(--shadow);transition:transform .25s}
+.drop-ic svg{width:28px;height:28px}
+.drop h3{margin:0 0 4px;font-size:17px}
+.drop p{margin:0 0 16px;color:var(--muted);font-size:14px}
+.drop .meta{margin-top:14px;font-size:12.5px;color:var(--faint)}
+.types{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:12px}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 9px;border-radius:999px;background:var(--surface);border:1px solid var(--border);color:var(--muted)}
+
+.filecard{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);animation:viewIn .3s ease}
+.ftype{width:46px;height:52px;border-radius:9px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:11px;letter-spacing:.03em;flex:none;position:relative}
+.ftype::after{content:"";position:absolute;top:0;right:0;border-width:0 12px 12px 0;border-style:solid;border-color:var(--surface) var(--surface) rgba(255,255,255,.35) rgba(255,255,255,.35);border-radius:0 9px 0 3px}
+.finfo{flex:1;min-width:0}
+.fname{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fsub{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ok{color:var(--success-ink);display:inline-flex;align-items:center;gap:4px;font-weight:600}
+.ok svg{width:15px;height:15px;stroke-width:2.4}
+.iconbtn{width:38px;height:38px;border-radius:10px;border:1px solid var(--border);background:var(--surface);display:grid;place-items:center;color:var(--muted);transition:all .15s}
+.iconbtn:hover{color:var(--ink);border-color:var(--border-strong)}
+.iconbtn.danger:hover{color:var(--danger-ink);background:var(--danger-soft);border-color:transparent}
+.iconbtn svg{width:18px;height:18px}
+
+.field{width:100%;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface);padding:12px 14px;transition:border-color .15s,box-shadow .15s;outline:none;resize:none}
+.field:hover{border-color:var(--border-strong)}
+.field:focus{border-color:var(--primary);box-shadow:var(--ring)}
+#pasteText{min-height:240px;max-height:60vh;font:13.5px/1.65 ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;overflow:auto}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.spacer{flex:1}
+.hintline{font-size:12.5px;color:var(--muted)}
+
+.info{display:flex;gap:14px;background:var(--soft);border:1px solid color-mix(in srgb,var(--primary) 18%,transparent);border-radius:var(--r);padding:16px 18px;margin-top:16px}
+.info-ic{width:36px;height:36px;border-radius:10px;background:var(--surface);color:var(--primary);display:grid;place-items:center;flex:none}
+.info h4{margin:2px 0 3px;font-size:15px}
+.info p{margin:0;color:var(--muted);font-size:13.5px}
+.marks{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.mark{font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:8px;background:var(--surface);border:1px solid var(--border)}
+.mark.b{font-weight:800}.mark.h{background:#FFF3A3;color:#17233C;border-color:#F1E07A}.mark.c{color:#E5484D}.mark.u{text-decoration:underline;text-underline-offset:3px}
+.mark code{font:600 12px ui-monospace,Consolas,monospace}
+details.more{margin-top:10px;font-size:13.5px;color:var(--muted)}
+details.more summary{cursor:pointer;color:var(--primary);font-weight:600;list-style:none;display:inline-flex;align-items:center;gap:4px}
+details.more summary::-webkit-details-marker{display:none}
+details.more ul{margin:8px 0 0;padding-left:18px}
+details.more li{margin:3px 0}
+code.k{font:600 12.5px ui-monospace,Consolas,monospace;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:1px 6px;color:var(--ink)}
+
+.loading{display:flex;gap:16px;align-items:flex-start;padding:22px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface-2);animation:viewIn .3s}
+.load-ic{width:48px;height:48px;border-radius:14px;background:var(--soft);color:var(--primary);display:grid;place-items:center;flex:none}
+.load-ic .spin{width:22px;height:22px}
+.load-main{flex:1;min-width:0}
+.load-main b{font-size:16px}
+.load-sub{color:var(--muted);font-size:14px;margin-top:2px;min-height:21px;transition:opacity .25s}
+.ptrack.indet{position:relative}
+.ptrack.indet .pfill{position:absolute;width:35%;animation:indet 1.4s ease-in-out infinite}
+@keyframes indet{0%{left:-35%}100%{left:100%}}
+.err a{color:inherit;font-weight:700}
+.err{display:flex;gap:10px;align-items:flex-start;background:var(--danger-soft);color:var(--danger-ink);border-radius:var(--r-sm);padding:12px 14px;margin-top:14px;font-size:14px;animation:viewIn .25s}
+.err svg{margin-top:1px}
+
+/* ---------- Review ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.stat{padding:16px;display:flex;gap:12px;align-items:center}
+.stat-ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none}
+.stat-ic svg{width:20px;height:20px}
+.stat b{display:block;font-size:24px;line-height:1.1;letter-spacing:-.02em}
+.stat span{font-size:12.5px;color:var(--muted);font-weight:500}
+.t-blue{background:var(--soft);color:var(--primary)}.t-green{background:var(--success-soft);color:var(--success-ink)}
+.t-orange{background:var(--warn-soft);color:var(--warn-ink)}.t-red{background:var(--danger-soft);color:var(--danger-ink)}
+.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.src{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;min-width:0}
+.src b{color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:260px}
+.qlist{display:flex;flex-direction:column;gap:10px}
+.qitem{overflow:hidden;transition:border-color .2s,box-shadow .2s}
+.qitem:hover{border-color:var(--border-strong)}
+.qitem.open{border-color:color-mix(in srgb,var(--primary) 40%,var(--border))}
+.qhead{width:100%;display:flex;align-items:center;gap:12px;padding:14px 16px;border:0;background:none;text-align:left}
+.qno{width:32px;height:32px;border-radius:9px;background:var(--surface-2);border:1px solid var(--border);display:grid;place-items:center;font-weight:700;font-size:13px;flex:none;color:var(--muted)}
+.qtitle{flex:1;min-width:0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qtitle.empty{color:var(--faint);font-style:italic;font-weight:500}
+.qbadges{display:flex;gap:6px;flex:none}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:4px 9px;border-radius:999px;white-space:nowrap}
+.pill svg{width:13px;height:13px;stroke-width:2.4}
+.pill.green{background:var(--success-soft);color:var(--success-ink)}
+.pill.orange{background:var(--warn-soft);color:var(--warn-ink)}
+.pill.red{background:var(--danger-soft);color:var(--danger-ink)}
+.pill.blue{background:var(--soft);color:var(--primary)}
+.chev{color:var(--faint);transition:transform .25s}
+.qitem.open .chev{transform:rotate(180deg)}
+.qbody{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+.qitem.open .qbody{grid-template-rows:1fr}
+.qbody>div{overflow:hidden}
+.qinner{padding:4px 16px 16px 60px;display:flex;flex-direction:column;gap:12px}
+.lbl{font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:6px;display:block}
+.qinner textarea{min-height:44px;line-height:1.5}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--border);border-radius:12px;padding:6px 6px 6px 8px;background:var(--surface);transition:border-color .15s,background .15s}
+.opt:focus-within{border-color:var(--primary);box-shadow:var(--ring)}
+.opt.correct,.opt.correct:focus-within{border-color:var(--success);background:var(--success-soft)}
+.opt textarea{border:0;background:transparent;padding:7px 4px;box-shadow:none!important;min-height:36px;flex:1}
+.radio{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border-strong);background:var(--surface);font-weight:800;font-size:13px;color:var(--muted);display:grid;place-items:center;flex:none;transition:all .15s;position:relative}
+.radio:hover{border-color:var(--success);color:var(--success-ink)}
+.opt.correct .radio{background:var(--success);border-color:var(--success);color:#fff}
+.keyrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13.5px}
+.keyrow .ans{font-weight:700;color:var(--success-ink)}
+.keyrow .none{font-weight:600;color:var(--warn-ink)}
+.issues{background:var(--warn-soft);color:var(--warn-ink);border-radius:10px;padding:9px 12px;font-size:13px;display:flex;gap:8px;align-items:flex-start}
+.issues svg{width:17px;height:17px;margin-top:1px}
+.qfoot{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-top:4px;border-top:1px dashed var(--border)}
+.qfoot input{width:90px;padding:8px 10px}
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted)}
+
+.actionbar{position:sticky;bottom:12px;z-index:20;margin-top:16px;display:flex;align-items:center;gap:10px;padding:12px 14px;flex-wrap:wrap}
+.actionbar .msg{font-size:13.5px;color:var(--muted);display:flex;align-items:center;gap:7px}
+.actionbar .msg.warn{color:var(--warn-ink)}
+
+/* ---------- Format cards ---------- */
+.fmts{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.fmt{position:relative;text-align:left;border:1.5px solid var(--border);background:var(--surface);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:10px;transition:border-color .18s,box-shadow .18s,transform .18s,background .18s;box-shadow:var(--shadow-sm)}
+.fmt:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--border-strong)}
+.fmt[aria-checked="true"]{border-color:var(--primary);background:color-mix(in srgb,var(--soft) 55%,var(--surface));box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 14%,transparent)}
+.fmt-ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center}
+.fmt-ic svg{width:21px;height:21px}
+.fmt h3{margin:0;font-size:15.5px;letter-spacing:-.01em}
+.fmt p{margin:2px 0 0;font-size:13px;color:var(--muted);line-height:1.45}
+.fmt-body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.fmt .ext{font-size:11.5px;font-weight:700;color:var(--faint);letter-spacing:.04em;margin-top:8px}
+.fmt .note{margin-top:6px}
+.check{position:absolute;top:14px;right:14px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border-strong);display:grid;place-items:center;color:#fff;transition:all .18s;background:var(--surface)}
+.check svg{width:13px;height:13px;stroke-width:3;opacity:0;transform:scale(.6);transition:all .18s}
+.fmt[aria-checked="true"] .check{background:var(--primary);border-color:var(--primary)}
+.fmt[aria-checked="true"] .check svg{opacity:1;transform:none}
+.fmt .note{font-size:12px;font-weight:600;color:var(--warn-ink);display:flex;gap:5px;align-items:flex-start}
+.fmt .note svg{width:14px;height:14px;margin-top:1px}
+.gfbox{margin-top:14px;padding:16px;animation:viewIn .25s}
+.progress{margin-top:14px;padding:16px}
+.ptrack{height:8px;border-radius:99px;background:var(--surface-2);border:1px solid var(--border);overflow:hidden;margin-top:10px}
+.pfill{height:100%;width:0;background:var(--primary);border-radius:99px;transition:width .4s ease}
+
+/* ---------- Success ---------- */
+.success{text-align:center;padding:36px 22px 26px}
+.burst{width:76px;height:76px;margin:0 auto 16px;border-radius:50%;background:var(--success-soft);display:grid;place-items:center;position:relative;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+.burst::before{content:"";position:absolute;inset:-8px;border-radius:50%;border:2px solid var(--success);opacity:0;animation:ring 1.2s .2s ease-out}
+.burst svg{width:38px;height:38px;color:var(--success);stroke-width:2.6}
+.burst svg path{stroke-dasharray:30;stroke-dashoffset:30;animation:draw .45s .25s ease forwards}
+.burst.partial{background:var(--warn-soft)}.burst.partial::before{border-color:var(--warn)}.burst.partial svg{color:var(--warn)}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+@keyframes ring{0%{opacity:.7;transform:scale(.85)}100%{opacity:0;transform:scale(1.35)}}
+@keyframes draw{to{stroke-dashoffset:0}}
+.success h2{margin:0 0 6px;font-size:26px;letter-spacing:-.02em}
+.success>p{margin:0 auto;color:var(--muted);max-width:520px}
+.summary{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:16px 0 4px}
+.results{display:flex;flex-direction:column;gap:10px;margin-top:18px;text-align:left}
+.res{display:flex;align-items:center;gap:14px;padding:14px 16px}
+.res .fmt-ic{width:44px;height:44px}
+.res-main{flex:1;min-width:0}
+.res-title{font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap;overflow-wrap:anywhere;min-width:0}
+.summary .pill{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.res-sub{font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.res.fail .res-sub{white-space:normal;color:var(--danger-ink)}
+.res-act{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+
+/* ---------- Footer, toast, modal ---------- */
+/* ---------- Credit / hak cipta ---------- */
+.credit{margin-top:36px;display:flex;justify-content:center}
+.credit-bar{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;padding:7px 14px 7px 7px;border-radius:999px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow-sm);font-size:12.5px;color:var(--muted);max-width:100%}
+.mono{width:26px;height:26px;flex:none;border-radius:8px;display:grid;place-items:center;background:var(--primary);color:#fff;font-weight:800;font-size:10.5px;letter-spacing:.02em;transform:rotate(-6deg);transition:transform .3s cubic-bezier(.2,1.4,.4,1)}
+.credit-bar:hover .mono{transform:rotate(0)}
+.credit-bar b{color:var(--ink);font-weight:700}
+.credit-sep{width:4px;height:4px;border-radius:50%;background:var(--border-strong)}
+.toasts{position:fixed;right:18px;bottom:18px;z-index:60;display:flex;flex-direction:column;gap:8px;max-width:min(380px,calc(100vw - 36px))}
+.toast{display:flex;gap:10px;align-items:flex-start;background:var(--ink);color:var(--bg);padding:12px 14px;border-radius:12px;box-shadow:var(--shadow-lg);font-size:14px;font-weight:500;animation:toastIn .3s cubic-bezier(.2,.9,.3,1.2)}
+.toast.out{animation:toastOut .25s ease forwards}
+.toast svg{width:18px;height:18px;margin-top:1px}
+.toast span{flex:1}
+.toast-act{border:0;background:color-mix(in srgb,var(--bg) 16%,transparent);color:inherit;font-weight:800;font-size:13px;padding:5px 10px;border-radius:8px;margin:-3px -4px -3px 6px;align-self:center}
+.toast-act:hover{background:color-mix(in srgb,var(--bg) 28%,transparent)}
+.confirm{width:min(440px,100%);text-align:center;padding:28px 24px 22px}
+.cf-ic{width:52px;height:52px;border-radius:16px;margin:0 auto 14px;display:grid;place-items:center}
+.cf-ic svg{width:24px;height:24px}
+.confirm h2{font-size:18px}
+.confirm p{margin:8px 0 20px}
+.cf-act{justify-content:center}.cf-act .btn{flex:1}
+.btn-danger{background:var(--danger);color:#fff}.btn-danger:hover{filter:brightness(.94)}
+body.compact .hero{display:none}
+body.compact .stepper{margin-top:20px}
+.toast.success svg{color:var(--success)}.toast.error svg{color:var(--danger)}.toast.info svg{color:var(--primary)}
+@keyframes toastIn{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes toastOut{to{opacity:0;transform:translateY(6px)}}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(13,19,34,.45);backdrop-filter:blur(3px);display:grid;place-items:center;padding:16px;animation:fade .2s}
+@keyframes fade{from{opacity:0}}
+.modal-box{width:min(680px,100%);max-height:88vh;overflow:auto;padding:24px;animation:viewIn .3s}
+.modal-box h2{margin:0;font-size:20px}
+.modal-box h4{margin:18px 0 6px;font-size:14.5px}
+.modal-box p,.modal-box li{color:var(--muted);font-size:14px}
+.modal-box ol,.modal-box ul{padding-left:20px;margin:6px 0}
+.modal-box pre{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font:12.5px/1.6 ui-monospace,Consolas,monospace;overflow:auto;color:var(--ink)}
+
+@media (max-width:860px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .step-label small{display:none}
+}
+@media (max-width:640px){
+  .nav-in{padding:10px 16px}
+  .navbtn .t{display:none}
+  .navbtn{padding:9px}
+  .wrap{padding:0 16px 56px}
+  .hero{padding:26px 0 18px}
+  .hero p{font-size:15px}
+  .stepper{padding:12px;gap:4px}
+  .step{flex:0 0 auto}
+  .step.active{flex:0 1 auto;min-width:0}
+  .step:not(.active) .step-label{display:none}
+  .bar{flex:1 1 10px;min-width:6px}
+  .brand{font-size:15.5px}
+  .panel{padding:16px}
+  .seg{width:100%}.seg button{flex:1;justify-content:center}
+  .drop{padding:28px 14px}
+  .fname{white-space:normal;overflow-wrap:anywhere}
+  #readRow .btn,#panePaste .row .btn-primary{flex:1 1 100%}
+  .loading{padding:16px;gap:12px}
+  .credit-bar{border-radius:16px;padding:8px 12px;gap:6px 10px}
+  .credit-sep{display:none}
+  .filecard{gap:10px;padding:12px}
+  .qinner{padding:4px 14px 14px}
+  .qbadges .pill .t{display:none}
+  .fmts{grid-template-columns:1fr;gap:10px}
+  .fmt{flex-direction:row;align-items:flex-start;gap:12px;padding:14px 46px 14px 14px}
+  .fmt:hover{transform:none}
+  .fmt-body .ext{display:inline-block;margin-top:4px}
+  .stat{padding:13px}
+  .stat b{font-size:21px}
+  .res{flex-wrap:wrap}
+  .res-act{width:100%;justify-content:stretch}
+  .res-act .btn{flex:1}
+  .actionbar .btn{flex:1}
+  .toasts{right:12px;left:12px;bottom:12px;max-width:none}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="#" onclick="resetAll();return false" aria-label="Soalify, kembali ke awal">
+      <span class="logo"><svg viewBox="0 0 24 24" class="i"><path d="M14 3H7a2 2 0 0 0-2 2v6"/><path d="M14 3v5h5"/><path d="M19 8v11a2 2 0 0 1-2 2h-5"/><path d="M3 17h7"/><path d="m7 14 3 3-3 3"/></svg></span>
+      Soalify
+    </a>
+    <button class="navbtn" onclick="openGuide()" title="Panduan"><svg class="i" viewBox="0 0 24 24"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></svg><span class="t">Panduan</span></button>
+    <button class="navbtn" onclick="downloadTemplate()" title="Unduh template soal"><svg class="i" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg><span class="t">Template</span></button>
+    <button class="navbtn" onclick="tryExample()" title="Coba langsung dengan contoh soal"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4z"/></svg><span class="t">Coba Contoh</span></button>
+    <button class="navbtn" id="themeBtn" onclick="toggleTheme()" title="Ganti tema terang/gelap" aria-label="Ganti tema"></button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <span class="badge"><svg class="i" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>EDUCATION PRODUCTIVITY TOOL</span>
+    <h1>Satu Klik, Ribuan Soal Siap Tempur</h1>
+    <p>Ubah dokumen soal (Word, PDF, PowerPoint, Excel, atau teks) menjadi berbagai format kuis digital secara cepat, praktis, dan otomatis.</p>
+  </section>
+
+  <nav class="card stepper" id="stepper" aria-label="Tahapan konversi"></nav>
+
+  <!-- STEP 1: INPUT -->
+  <section id="view1" class="view">
+    <div class="card panel">
+      <div class="panel-head">
+        <div><h2>Masukkan Soal</h2><p>Upload file atau ketik langsung. Tidak perlu template khusus.</p></div>
+        <div class="seg" role="tablist">
+          <button role="tab" id="tabUpload" aria-selected="true" onclick="showTab('upload')"><svg class="i" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg>Upload File</button>
+          <button role="tab" id="tabPaste" aria-selected="false" onclick="showTab('paste')"><svg class="i" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Ketik / Paste</button>
+        </div>
+      </div>
+
+      <div id="paneUpload">
+        <div class="drop" id="drop">
+          <div class="drop-ic"><svg class="i" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="m9 15 3-3 3 3"/></svg></div>
+          <h3>Upload Dokumen Soal</h3>
+          <p>Drag and drop file kamu di sini, atau</p>
+          <button class="btn btn-primary" type="button" onclick="document.getElementById('file').click()"><svg class="i" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Browse File</button>
+          <div class="types">
+            <span class="chip">DOCX</span><span class="chip">PDF</span><span class="chip">PPTX</span><span class="chip">XLSX</span><span class="chip">CSV</span><span class="chip">TXT</span><span class="chip">JPG / PNG</span>
+          </div>
+          <div class="meta">Maksimal 10 MB · juga .doc, .odt, .rtf, .ppt, .xls, .ods, .html</div>
+          <input id="file" type="file" class="sr" accept=".docx,.doc,.odt,.rtf,.pdf,.pptx,.ppt,.odp,.xlsx,.xls,.ods,.csv,.tsv,.txt,.md,.html,.htm,.jpg,.jpeg,.png,.gif">
+        </div>
+        <div id="fileCard" class="hidden"></div>
+        <div class="row hidden" id="readRow" style="margin-top:14px">
+          <span class="hintline" id="ocrHint"></span><span class="spacer"></span>
+          <button class="btn btn-primary" id="readBtn" onclick="readSelectedFile()"><svg class="i" viewBox="0 0 24 24"><path d="m12 3 1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/></svg>Baca &amp; Deteksi Soal</button>
+        </div>
+      </div>
+
+      <div id="loadingCard" class="loading hidden" aria-live="polite">
+        <div class="load-ic"><span class="spin"></span></div>
+        <div class="load-main">
+          <b id="loadTitle">Membaca dokumen…</b>
+          <div class="load-sub" id="loadStage"></div>
+          <div class="ptrack indet"><div class="pfill"></div></div>
+          <div class="hintline" id="loadNote"></div>
+        </div>
+      </div>
+
+      <div id="panePaste" class="hidden">
+        <textarea id="pasteText" class="field" spellcheck="false" placeholder="Tempel atau ketik soal di sini, contoh:
+
+1. Ibu kota Indonesia adalah ...
+A. Bandung
+B. Jakarta *
+C. Surabaya
+D. Medan
+Pembahasan: Jakarta adalah ibu kota Indonesia.
+
+2. Hasil dari 2 + 3 adalah ...
+a) 4   b) 5 ✓   c) 6   d) 7"></textarea>
+        <div class="row" style="margin-top:12px">
+          <button class="btn btn-ghost" type="button" onclick="fillExample()"><svg class="i" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Isi contoh</button>
+          <span class="hintline" id="charCount"></span><span class="spacer"></span>
+          <button class="btn btn-primary" id="pasteBtn" onclick="parsePasted()"><svg class="i" viewBox="0 0 24 24"><path d="m12 3 1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/></svg>Deteksi Soal</button>
+        </div>
+      </div>
+
+      <div id="inputErr" class="err hidden"></div>
+
+      <div class="info">
+        <div class="info-ic"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></div>
+        <div>
+          <h4>Deteksi Kunci Jawaban Otomatis</h4>
+          <p>Sistem dapat mengenali jawaban benar berdasarkan format teks pada opsi yang benar (cukup satu opsi per soal).</p>
+          <div class="marks">
+            <span class="mark b">Bold</span><span class="mark h">Highlight</span><span class="mark c">Warna teks</span><span class="mark u">Underline</span><span class="mark"><code>B. Jakarta *</code></span><span class="mark"><code>Kunci: B</code></span>
+          </div>
+          <details class="more"><summary>Cara lain yang juga dikenali <svg class="i" viewBox="0 0 24 24" style="width:15px;height:15px"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <ul>
+              <li>Tanda di opsi: <code class="k">*B. Jakarta</code>, <code class="k">B. Jakarta ✓</code>, <code class="k">B. Jakarta (benar)</code></li>
+              <li>Baris jawaban berupa teks: <code class="k">Jawaban: Jakarta</code></li>
+              <li>Tabel kunci di akhir dokumen: <code class="k">KUNCI JAWABAN 1. A 2. C 3. B</code></li>
+              <li>Kolom <b>Kunci</b> di Excel, atau <code class="k">Kunci: B</code> di catatan pembicara PowerPoint</li>
+            </ul>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 2: REVIEW -->
+  <section id="view2" class="view hidden">
+    <div class="stats" id="stats"></div>
+    <div class="toolbar">
+      <div class="seg" role="tablist" id="filterSeg"></div>
+      <div class="src" id="srcInfo"></div>
+      <span class="spacer"></span>
+      <button class="btn btn-ghost" onclick="toggleAll()" id="toggleAllBtn">Buka semua</button>
+      <button class="btn btn-secondary" onclick="addQuestion()"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Tambah soal</button>
+    </div>
+    <div class="qlist" id="qlist"></div>
+    <div class="card actionbar">
+      <button class="btn btn-ghost" onclick="goStep(1)"><svg class="i" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>Kembali</button>
+      <span class="msg" id="reviewMsg"></span><span class="spacer"></span>
+      <button class="btn btn-primary" onclick="toFormats()">Lanjut: Pilih Format<svg class="i" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+    </div>
+  </section>
+
+  <!-- STEP 3: FORMAT -->
+  <section id="view3" class="view hidden">
+    <div class="card panel">
+      <div class="panel-head">
+        <div><h2>Pilih Format Output</h2><p>Pilih satu atau beberapa format sekaligus. <span id="qcount3"></span></p></div>
+        <div class="row"><button class="btn btn-ghost" onclick="selectAllFormats(true)">Pilih semua</button><button class="btn btn-ghost" onclick="selectAllFormats(false)">Kosongkan</button></div>
+      </div>
+      <div class="fmts" id="fmts" role="group" aria-label="Format output"></div>
+      <div id="gfBox" class="card gfbox hidden">
+        <label class="lbl" for="formTitle">Judul Google Form</label>
+        <input id="formTitle" class="field" type="text" value="Kuis dari Soalify" maxlength="250">
+        <div class="hintline" style="margin-top:6px">Form baru dibuat di Google Drive akun yang sedang login. Setiap soal bernilai 1 poin dengan kunci otomatis.</div>
+      </div>
+      <div id="progress" class="card progress hidden">
+        <div class="row"><span class="spin" style="color:var(--primary)"></span><b id="progText">Menyiapkan…</b><span class="spacer"></span><span class="hintline" id="progCount"></span></div>
+        <div class="ptrack"><div class="pfill" id="progFill"></div></div>
+      </div>
+      <div id="convErr" class="err hidden"></div>
+    </div>
+    <div class="card actionbar">
+      <button class="btn btn-ghost" onclick="goStep(2)" id="backTo2"><svg class="i" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>Kembali</button>
+      <span class="msg" id="fmtMsg"></span><span class="spacer"></span>
+      <button class="btn btn-primary" id="convertBtn" onclick="convert()"><svg class="i" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg><span>Konversi</span></button>
+    </div>
+  </section>
+
+  <!-- STEP 4: DOWNLOAD -->
+  <section id="view4" class="view hidden">
+    <div class="card success" id="successCard"></div>
+  </section>
+
+  <footer class="credit" aria-label="Hak cipta dan pengembang">
+    <div class="credit-bar">
+      <span class="mono" aria-hidden="true">SH</span>
+      <span>Dikembangkan &amp; dikelola oleh <b>Sayyidina Hamzah</b></span>
+      <span class="credit-sep" aria-hidden="true"></span>
+      <span>© <span id="year">2026</span> Soalify · Hak cipta dilindungi</span>
+    </div>
+  </footer>
+</main>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<div id="modal" class="modal hidden" onclick="if(event.target===this)closeGuide()"></div>
+
+<script>
+/* =================== Ikon =================== */
+const ICONS={
+  check:'<path d="M20 6 9 17l-5-5"/>',
+  checkCircle:'<path d="M22 11.1V12a10 10 0 1 1-5.9-9.1"/><path d="M22 4 12 14l-3-3"/>',
+  alert:'<path d="m21.7 18-8-14a2 2 0 0 0-3.4 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3z"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  xCircle:'<circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/>',
+  info:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+  x:'<path d="M18 6 6 18M6 6l12 12"/>',
+  trash:'<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
+  refresh:'<path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/>',
+  chevron:'<path d="m6 9 6 6 6-6"/>',
+  download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/>',
+  external:'<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
+  edit:'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+  list:'<path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/>',
+  key:'<circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/>',
+  file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/>',
+  moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  sparkle:'<path d="m12 3 1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/>',
+  layers:'<path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/>',
+  gamepad:'<path d="M6 11h4M8 9v4"/><path d="M15 12h.01M18 10h.01"/><path d="M17.3 5H6.7a4 4 0 0 0-4 3.6L2 15a3 3 0 0 0 5.5 1.6L9 14h6l1.5 2.6A3 3 0 0 0 22 15l-.7-6.4A4 4 0 0 0 17.3 5z"/>',
+  trophy:'<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.7V17c0 .6-.5 1-1 1.2-1.2.5-2 2-2 3.8"/><path d="M14 14.7V17c0 .6.5 1 1 1.2 1.2.5 2 2 2 3.8"/><path d="M18 2H6v7a6 6 0 0 0 12 0z"/>',
+  cap:'<path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>',
+  table:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/>',
+  form:'<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4M12 16h4M8 11h.01M8 16h.01"/>',
+  slides:'<path d="M2 3h20"/><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"/><path d="m7 21 5-5 5 5"/>',
+  scan:'<path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="m8 12 3 3 5-6"/>'
+};
+const ic=(n,cls)=>`<svg class="i${cls?" "+cls:""}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]||""}</svg>`;
+
+/* =================== Data format output =================== */
+const FORMATS=[
+  {id:"wayground",name:"Wayground",desc:"Format kuis interaktif Wayground (Quizizz).",ext:"XLSX",icon:"gamepad",tone:"t-blue"},
+  {id:"kahoot",name:"Kahoot",desc:"Format kuis berbasis permainan. Maksimal 4 opsi.",ext:"XLSX",icon:"trophy",tone:"t-red"},
+  {id:"gift",name:"Moodle",desc:"Format GIFT untuk bank soal Learning Management System.",ext:"TXT · GIFT",icon:"cap",tone:"t-orange"},
+  {id:"csv",name:"CSV",desc:"Format spreadsheet dan pengolahan data.",ext:"CSV",icon:"table",tone:"t-green"},
+  {id:"gforms",name:"Google Forms Mode Kuis",desc:"Membuat kuis baru di Google Forms lengkap dengan kunci.",ext:"GOOGLE FORM",icon:"form",tone:"t-blue"},
+  {id:"pptx",name:"PowerPoint",desc:"Satu soal per slide, tanpa kunci jawaban.",ext:"PPTX",icon:"slides",tone:"t-orange"},
+  {id:"evalbee_xlsx",name:"EvalBee · Excel",desc:"Daftar nomor dan kunci jawaban (lembar referensi).",ext:"XLSX",icon:"scan",tone:"t-green"},
+  {id:"evalbee_csv",name:"EvalBee · CSV",desc:"Daftar nomor dan kunci jawaban (lembar referensi).",ext:"CSV",icon:"scan",tone:"t-green"}
+];
+const FMT=Object.fromEntries(FORMATS.map(f=>[f.id,f]));
+const L5=["A","B","C","D","E"];
+const ALLOWED=/^(docx?|odt|rtf|pdf|pptx?|odp|xlsx?|ods|csv|tsv|txt|md|html?|jpe?g|png|gif)$/;
+
+/* =================== State =================== */
+const state={step:1,maxStep:1,questions:[],source:"",file:null,formats:new Set(["wayground"]),results:[],filter:"all",open:new Set(),busy:false};
+
+/* =================== Util =================== */
+const $=id=>document.getElementById(id);
+function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function fmtSize(b){return b<1024?b+" B":b<1048576?(b/1024).toFixed(1)+" KB":(b/1048576).toFixed(1)+" MB";}
+function toast(text,type,action){
+  const t=document.createElement("div");t.className="toast "+(type||"info");
+  t.innerHTML=ic(type==="success"?"checkCircle":type==="error"?"xCircle":"info")+"<span>"+esc(text)+"</span>";
+  const close=()=>{if(t.isConnected){t.classList.add("out");setTimeout(()=>t.remove(),260);}};
+  if(action){const b=document.createElement("button");b.className="toast-act";b.textContent=action.label;b.onclick=()=>{action.fn();close();};t.appendChild(b);}
+  $("toasts").appendChild(t);
+  setTimeout(close,action?7000:type==="error"?6000:3600);
+}
+/** Dialog konfirmasi bergaya aplikasi (pengganti confirm() bawaan browser). */
+function confirmBox(o){
+  return new Promise(resolve=>{
+    const m=$("modal");
+    m.innerHTML=`<div class="card modal-box confirm" role="alertdialog" aria-modal="true" aria-labelledby="cfT">
+      <div class="cf-ic ${o.danger?"t-red":"t-orange"}">${ic(o.danger?"trash":"alert")}</div>
+      <h2 id="cfT">${esc(o.title)}</h2><p>${esc(o.text)}</p>
+      <div class="row cf-act"><button class="btn btn-secondary" data-v="0">${esc(o.cancel||"Batal")}</button>
+      <button class="btn ${o.danger?"btn-danger":"btn-primary"}" data-v="1">${esc(o.ok||"Lanjutkan")}</button></div></div>`;
+    m.classList.remove("hidden");document.body.style.overflow="hidden";
+    const done=v=>{m.classList.add("hidden");m.innerHTML="";document.body.style.overflow="";
+      m.onclick=e=>{if(e.target===m)closeGuide();};resolve(v);};
+    m.querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>done(b.dataset.v==="1"));
+    m.onclick=e=>{if(e.target===m)done(false);};
+    m.querySelector('[data-v="1"]').focus();
+  });
+}
+/* Backend: Web App Apps Script (backend/Code.gs). Body text/plain = simple request, tanpa preflight CORS. */
+const API_URL="https://script.google.com/macros/s/AKfycbzthU16cjLeyWdMwWqjxRfukEegF0QwZbR5MJSm7WxEijvVy787hGs7Z2jz5ZOCne0d/exec";
+async function run(fn,arg){
+  let res;
+  try{res=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:fn,payload:arg||{}})});}
+  catch(e){throw new Error("Tidak dapat terhubung ke server. Periksa koneksi internet.");}
+  let out;try{out=await res.json();}catch(e){throw new Error("Respons server tidak valid (HTTP "+res.status+").");}
+  if(!out||!out.ok)throw new Error((out&&out.error)||"Terjadi kesalahan di server.");
+  return out.data;
+}
+function errText(e){return String((e&&e.message)||e||"Terjadi kesalahan.").replace(/^Error:\s*/,"").replace(/^Exception:\s*/,"");}
+function showErr(id,text,help){const el=$(id);if(!text){el.classList.add("hidden");return;}
+  el.innerHTML=ic("alert")+"<span>"+esc(text)+(help?' <a href="#" onclick="openGuide();return false">Lihat panduan format soal</a>':"")+"</span>";el.classList.remove("hidden");}
+function autosize(el){el.style.height="auto";el.style.height=(el.scrollHeight+2)+"px";} /* max-height diatur CSS */
+function setBusy(btn,busy,label){
+  if(busy){btn.dataset.html=btn.innerHTML;btn.disabled=true;btn.innerHTML='<span class="spin"></span>'+esc(label||"Memproses…");}
+  else if(btn.dataset.html!=null){btn.innerHTML=btn.dataset.html;delete btn.dataset.html;btn.disabled=false;}
+}
+
+/* =================== Tema =================== */
+function currentTheme(){
+  const t=document.documentElement.dataset.theme;
+  if(t)return t;
+  return window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";
+}
+function paintThemeBtn(){const d=currentTheme()==="dark";$("themeBtn").innerHTML=ic(d?"sun":"moon")+'<span class="t">'+(d?"Terang":"Gelap")+"</span>";}
+function toggleTheme(){
+  const next=currentTheme()==="dark"?"light":"dark";
+  document.documentElement.dataset.theme=next;
+  try{localStorage.setItem("sc-theme",next);}catch(e){}
+  paintThemeBtn();
+}
+try{const t=localStorage.getItem("sc-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}
+
+/* =================== Stepper =================== */
+const STEPS=[["Upload Soal","File atau teks"],["Deteksi & Pemeriksaan","Cek soal & kunci"],["Pilih Format Output","Satu atau lebih"],["Download Hasil","Siap digunakan"]];
+function renderStepper(){
+  const s=state.step;
+  $("stepper").innerHTML=STEPS.map((st,i)=>{
+    const n=i+1;
+    const done=n<s||(s===4&&n===4&&state.results.some(r=>r.ok));
+    const c=n===s&&!(s===4&&done)?"active":done?"done":"";
+    const clickable=n!==s&&n<=state.maxStep&&!state.busy&&!(n===4&&!state.results.length);
+    return (i?`<span class="bar${n<=s&&(done||c)?" done":""}"></span>`:"")+
+      `<button class="step ${c}" ${clickable?'data-clickable="1"':'tabindex="-1"'} onclick="${clickable?"goStep("+n+")":""}" aria-current="${n===s?"step":"false"}">
+        <span class="dot">${c==="done"?ic("check"):n}</span><span class="step-label">${st[0]}<small>${st[1]}</small></span></button>`;
+  }).join("");
+}
+function goStep(n){
+  if(state.busy)return;
+  state.step=n;state.maxStep=Math.max(state.maxStep,n);
+  for(let i=1;i<=4;i++)$("view"+i).classList.toggle("hidden",i!==n);
+  document.body.classList.toggle("compact",n>1); // hero disembunyikan agar fokus ke pekerjaan
+  if(n===2)renderReview();
+  if(n===3)renderFormats();
+  renderStepper();
+  const top=$("stepper").getBoundingClientRect().top+window.scrollY-80;
+  if(window.scrollY>top)window.scrollTo({top:Math.max(0,top),behavior:"smooth"});
+}
+
+/* =================== Step 1: input =================== */
+function showTab(name,keepErr){
+  if(state.busy)return;
+  $("tabUpload").setAttribute("aria-selected",name==="upload");
+  $("tabPaste").setAttribute("aria-selected",name==="paste");
+  $("paneUpload").classList.toggle("hidden",name!=="upload");
+  $("panePaste").classList.toggle("hidden",name!=="paste");
+  if(!keepErr){showErr("inputErr","");if(name==="paste")setTimeout(()=>$("pasteText").focus(),50);}
+}
+const TYPE_STYLE={doc:["#2B579A","DOC"],pdf:["#D93831","PDF"],ppt:["#C43E1C","PPT"],xls:["#1D7044","XLS"],csv:["#1D7044","CSV"],txt:["#64748B","TXT"],img:["#7C3AED","IMG"],html:["#E8590C","HTML"]};
+function typeOf(ext){
+  if(/^(docx?|odt|rtf)$/.test(ext))return"doc";if(ext==="pdf")return"pdf";if(/^(pptx?|odp)$/.test(ext))return"ppt";
+  if(/^(xlsx?|ods)$/.test(ext))return"xls";if(/^(csv|tsv)$/.test(ext))return"csv";if(/^(jpe?g|png|gif)$/.test(ext))return"img";
+  if(/^html?$/.test(ext))return"html";return"txt";
+}
+function setFile(f){
+  showErr("inputErr","");
+  if(!f)return;
+  const ext=(f.name.split(".").pop()||"").toLowerCase();
+  if(!ALLOWED.test(ext)){showErr("inputErr","Jenis file ."+ext+" belum didukung. Gunakan Word, PDF, PowerPoint, Excel, CSV, TXT, atau gambar JPG/PNG.");toast("Jenis file tidak didukung","error");return;}
+  if(f.size>10*1024*1024){showErr("inputErr","Ukuran file "+fmtSize(f.size)+" melebihi batas 10 MB.");toast("File terlalu besar","error");return;}
+  state.file=f;
+  const [color,label]=TYPE_STYLE[typeOf(ext)];
+  $("fileCard").innerHTML=`<div class="filecard">
+    <div class="ftype" style="background:${color}">${label}</div>
+    <div class="finfo"><div class="fname" title="${esc(f.name)}">${esc(f.name)}</div>
+      <div class="fsub"><span>${fmtSize(f.size)}</span><span class="ok">${ic("checkCircle")}Siap dibaca</span></div></div>
+    <button class="iconbtn" title="Ganti file" onclick="document.getElementById('file').click()">${ic("refresh")}</button>
+    <button class="iconbtn danger" title="Hapus file" onclick="clearFile()">${ic("trash")}</button></div>`;
+  $("fileCard").classList.remove("hidden");$("drop").classList.add("hidden");$("readRow").classList.remove("hidden");
+  $("ocrHint").textContent=/^(pdf|jpe?g|png|gif)$/.test(ext)?"PDF/gambar dibaca dengan OCR, bisa butuh waktu lebih lama.":"";
+}
+function clearFile(){state.file=null;$("file").value="";$("fileCard").classList.add("hidden");$("drop").classList.remove("hidden");$("readRow").classList.add("hidden");$("ocrHint").textContent="";}
+
+/* Loading state saat membaca: tahapan berganti agar pengguna tahu proses berjalan. */
+let loadTimer=null;
+function startLoading(title,stages,note){
+  state.busy=true;
+  ["paneUpload","panePaste"].forEach(id=>$(id).classList.add("hidden"));
+  document.querySelectorAll("#view1 .seg button").forEach(b=>b.disabled=true);
+  $("loadTitle").textContent=title;$("loadNote").textContent=note||"";
+  let k=0;const show=()=>{const el=$("loadStage");el.style.opacity=0;setTimeout(()=>{el.textContent=stages[Math.min(k,stages.length-1)];el.style.opacity=1;k++;},180);};
+  show();loadTimer=setInterval(show,2600);
+  $("loadingCard").classList.remove("hidden");
+}
+function stopLoading(){
+  clearInterval(loadTimer);state.busy=false;
+  $("loadingCard").classList.add("hidden");
+  document.querySelectorAll("#view1 .seg button").forEach(b=>b.disabled=false);
+  showTab($("tabPaste").getAttribute("aria-selected")==="true"?"paste":"upload",true);
+}
+/** Membaca ulang akan mengganti soal yang sudah diperiksa: minta konfirmasi dulu. */
+async function okToReplace(){
+  if(!state.questions.length)return true;
+  return confirmBox({title:"Ganti soal yang sedang diperiksa?",text:"Ada "+state.questions.length+" soal dari pembacaan sebelumnya. Hasil edit pada soal tersebut akan diganti dengan hasil pembacaan baru.",ok:"Ya, baca ulang"});
+}
+async function readSelectedFile(){
+  const f=state.file;if(!f||state.busy)return;
+  if(!(await okToReplace()))return;
+  showErr("inputErr","");
+  const ocr=/\.(pdf|jpe?g|png|gif)$/i.test(f.name);
+  startLoading("Membaca "+f.name,["Mengunggah file…","Mengonversi dokumen di Google Drive…",ocr?"Mengenali teks dengan OCR…":"Mengambil teks dan format…","Mendeteksi soal dan kunci jawaban…","Hampir selesai…"],
+    ocr?"PDF dan gambar butuh waktu lebih lama, biasanya 10–40 detik.":"Biasanya selesai dalam beberapa detik.");
+  const r=new FileReader();
+  r.onload=e=>{
+    run("parseFile",{name:f.name,base64:String(e.target.result).split(",")[1]})
+      .then(res=>{stopLoading();onParsed(res);})
+      .catch(err=>{stopLoading();showErr("inputErr",errText(err),true);toast("Soal gagal dibaca","error");});
+  };
+  r.onerror=()=>{stopLoading();showErr("inputErr","File gagal dibaca oleh browser. Coba pilih ulang file-nya.");};
+  r.readAsDataURL(f);
+}
+async function parsePasted(){
+  if(state.busy)return;
+  const text=$("pasteText").value;
+  if(!text.trim()){showErr("inputErr","Ketik atau paste soal terlebih dahulu.");$("pasteText").focus();return;}
+  if(!(await okToReplace()))return;
+  showErr("inputErr","");
+  startLoading("Mendeteksi soal",["Membaca teks…","Mendeteksi soal dan kunci jawaban…"]);
+  run("parseText",{text}).then(res=>{stopLoading();onParsed(res);})
+    .catch(err=>{stopLoading();showErr("inputErr",errText(err),true);toast("Soal tidak terdeteksi","error");});
+}
+const EXAMPLE=`1. Ibu kota Indonesia adalah ...
+A. Bandung
+B. Jakarta *
+C. Surabaya
+D. Medan
+Pembahasan: Jakarta adalah ibu kota Indonesia.
+
+2. Planet terbesar di tata surya adalah ...
+A. Mars
+B. Bumi
+C. Jupiter ✓
+D. Venus
+
+3. Hasil dari 12 : 4 adalah ...
+a) 2   b) 3   c) 4   d) 6
+Kunci: b`;
+/** Demo satu klik: isi contoh soal lalu jalankan deteksi sungguhan (parseText). */
+async function tryExample(){
+  if(state.busy)return;
+  if(state.step!==1){
+    if(state.questions.length&&!(await okToReplace()))return;
+    state.questions=[];goStep(1);
+  }
+  showTab("paste");fillExample();
+  window.scrollTo({top:$("view1").getBoundingClientRect().top+window.scrollY-90,behavior:"smooth"});
+  setTimeout(parsePasted,500);
+}
+function fillExample(){const t=$("pasteText");t.value=EXAMPLE;autosize(t);updateCount();t.focus();}
+function updateCount(){const n=$("pasteText").value.length;$("charCount").textContent=n?n.toLocaleString("id-ID")+" karakter":"";}
+function onParsed(res){
+  state.questions=(res.questions||[]).map(q=>({number:q.number,question:q.question||"",options:L5.map((_,i)=>(q.options||[])[i]||""),answer:q.answer||"",answerSource:q.answerSource||"",explanation:q.explanation||""}));
+  state.source=res.sourceName||"";state.results=[];state.filter="all";
+  state.open=new Set();
+  state.questions.forEach((q,i)=>{if(issuesOf(q).length&&state.open.size<3)state.open.add(i);});
+  state.maxStep=2;goStep(2);
+  const keys=state.questions.filter(q=>q.answer).length;
+  toast(res.total+" soal terdeteksi · "+keys+" kunci jawaban ditemukan","success");
+}
+
+/* =================== Step 2: review =================== */
+function issuesOf(q){
+  const a=[],n=q.options.filter(o=>o.trim()).length;
+  if(!q.question.trim())a.push("Pertanyaan kosong");
+  if(n<2)a.push("Opsi kurang dari 2");
+  if(!q.answer)a.push("Kunci jawaban belum dipilih");
+  else if(!(q.options[L5.indexOf(q.answer)]||"").trim())a.push("Opsi kunci jawaban kosong");
+  return a;
+}
+function statusOf(q){
+  const iss=issuesOf(q);
+  if(!q.question.trim()||q.options.filter(o=>o.trim()).length<2)return{cls:"red",icon:"xCircle",text:"Format tidak dikenali"};
+  if(iss.length)return{cls:"orange",icon:"alert",text:iss[0]==="Kunci jawaban belum dipilih"?"Kunci belum dipilih":"Perlu diperiksa"};
+  if(q.answerSource)return{cls:"green",icon:"sparkle",text:"Jawaban benar terdeteksi"};
+  return{cls:"green",icon:"check",text:"Siap"};
+}
+function renderStats(){
+  const qs=state.questions,total=qs.length,bad=qs.filter(q=>issuesOf(q).length).length;
+  const auto=qs.filter(q=>q.answer&&q.answerSource).length;
+  const items=[["Total soal",total,"list","t-blue"],["Siap digunakan",total-bad,"checkCircle","t-green"],["Perlu diperiksa",bad,"alert",bad?"t-orange":"t-green"],["Kunci terdeteksi otomatis",auto,"key","t-blue"]];
+  $("stats").innerHTML=items.map(([l,v,i,t])=>`<div class="card stat"><div class="stat-ic ${t}">${ic(i)}</div><div><b>${v}</b><span>${l}</span></div></div>`).join("");
+  $("filterSeg").innerHTML=`<button role="tab" aria-selected="${state.filter==="all"}" onclick="setFilter('all')">Semua <span class="hintline">${total}</span></button>
+    <button role="tab" aria-selected="${state.filter==="bad"}" onclick="setFilter('bad')">Perlu diperiksa <span class="hintline">${bad}</span></button>`;
+  $("srcInfo").innerHTML=state.source?ic("file")+"<span>dari</span><b title=\""+esc(state.source)+"\">"+esc(state.source)+"</b>":"";
+  const m=$("reviewMsg");
+  if(bad){m.className="msg warn";m.innerHTML=ic("alert")+bad+" soal perlu diperiksa";}
+  else{m.className="msg";m.innerHTML=ic("checkCircle")+"Semua soal siap";}
+}
+function setFilter(f){state.filter=f;renderReview();}
+function renderReview(){
+  renderStats();
+  const list=$("qlist");
+  const idx=state.questions.map((q,i)=>i).filter(i=>state.filter==="all"||issuesOf(state.questions[i]).length);
+  if(!idx.length){list.innerHTML=`<div class="card empty-state">${state.filter==="bad"?"Tidak ada soal yang perlu diperiksa. 🎉":"Belum ada soal. Klik <b>Tambah soal</b> untuk membuat manual."}</div>`;}
+  else list.innerHTML=idx.map(i=>qItemHtml(i)).join("");
+  list.querySelectorAll("textarea").forEach(autosizeLater);
+  $("toggleAllBtn").textContent=state.open.size>=state.questions.length&&state.questions.length?"Tutup semua":"Buka semua";
+}
+function autosizeLater(t){requestAnimationFrame(()=>autosize(t));}
+function badgeHtml(q){const s=statusOf(q);return`<span class="pill ${s.cls}">${ic(s.icon)}<span class="t">${s.text}</span></span>`;}
+function qItemHtml(i){
+  const q=state.questions[i],open=state.open.has(i),iss=issuesOf(q);
+  const ans=q.answer?q.answer+". "+(q.options[L5.indexOf(q.answer)]||"").split("\n")[0]:"";
+  return `<div class="card qitem${open?" open":""}" data-i="${i}">
+   <button class="qhead" onclick="toggleQ(${i})" aria-expanded="${open}">
+     <span class="qno">${i+1}</span>
+     <span class="qtitle${q.question.trim()?"":" empty"}">${q.question.trim()?esc(q.question.split("\n").pop()):"(pertanyaan kosong)"}</span>
+     <span class="qbadges">${badgeHtml(q)}</span>
+     <span class="chev">${ic("chevron")}</span>
+   </button>
+   <div class="qbody"><div><div class="qinner">
+     <div><label class="lbl">Pertanyaan</label><textarea class="field" data-f="question" rows="2" oninput="onEdit(${i},this)">${esc(q.question)}</textarea></div>
+     <div><label class="lbl">Opsi jawaban <span class="hintline">· klik huruf untuk menandai jawaban benar</span></label>
+       <div class="opts">${L5.map((L,j)=>`<div class="opt${q.answer===L?" correct":""}" data-j="${j}">
+         <button class="radio" title="Tandai ${L} sebagai jawaban benar" aria-pressed="${q.answer===L}" onclick="setAnswer(${i},'${L}')">${L}</button>
+         <textarea class="field" data-o="${j}" rows="1" placeholder="Opsi ${L}${j>=2?" (opsional)":""}" oninput="onEdit(${i},this)">${esc(q.options[j])}</textarea></div>`).join("")}</div></div>
+     <div class="keyrow" data-key>${keyRowHtml(q)}</div>
+     ${iss.length?`<div class="issues" data-iss>${ic("alert")}<span>${esc(iss.join(" · "))}</span></div>`:`<div class="issues hidden" data-iss></div>`}
+     <div><label class="lbl">Pembahasan <span class="hintline">· opsional</span></label><textarea class="field" data-f="explanation" rows="1" placeholder="Penjelasan jawaban (dipakai di Google Forms & Wayground)" oninput="onEdit(${i},this)">${esc(q.explanation)}</textarea></div>
+     <div class="qfoot"><label class="hintline" style="display:flex;align-items:center;gap:8px">Nomor soal <input class="field" data-f="number" value="${esc(q.number)}" oninput="onEdit(${i},this)"></label>
+       <span class="spacer"></span><button class="btn btn-danger-ghost" onclick="removeQ(${i})">${ic("trash")}Hapus soal</button></div>
+   </div></div></div></div>`;
+}
+function keyRowHtml(q){
+  if(!q.answer)return `${ic("key")}<span class="none">Jawaban benar belum dipilih</span>`;
+  const t=(q.options[L5.indexOf(q.answer)]||"").split("\n")[0];
+  return `${ic("key")}<span>Jawaban benar:</span><span class="ans">${q.answer}. ${esc(t)}</span>${q.answerSource?`<span class="pill blue">${ic("sparkle")}otomatis · ${esc(q.answerSource)}</span>`:`<span class="pill blue">dipilih manual</span>`}`;
+}
+function toggleQ(i){
+  const el=document.querySelector(`.qitem[data-i="${i}"]`);
+  if(state.open.has(i))state.open.delete(i);else state.open.add(i);
+  el.classList.toggle("open",state.open.has(i));
+  el.querySelector(".qhead").setAttribute("aria-expanded",state.open.has(i));
+  if(state.open.has(i))el.querySelectorAll("textarea").forEach(autosizeLater);
+}
+function toggleAll(){
+  const all=state.open.size<state.questions.length;
+  state.open=new Set(all?state.questions.map((_,i)=>i):[]);
+  renderReview();
+}
+function refreshItem(i){
+  const q=state.questions[i],el=document.querySelector(`.qitem[data-i="${i}"]`);if(!el)return;
+  el.querySelector(".qbadges").innerHTML=badgeHtml(q);
+  const t=el.querySelector(".qtitle");t.textContent=q.question.trim()?q.question.split("\n").pop():"(pertanyaan kosong)";t.classList.toggle("empty",!q.question.trim());
+  el.querySelector("[data-key]").innerHTML=keyRowHtml(q);
+  el.querySelectorAll(".opt").forEach(o=>{const L=L5[+o.dataset.j];o.classList.toggle("correct",q.answer===L);o.querySelector(".radio").setAttribute("aria-pressed",q.answer===L);});
+  const iss=issuesOf(q),box=el.querySelector("[data-iss]");
+  box.classList.toggle("hidden",!iss.length);box.innerHTML=iss.length?ic("alert")+"<span>"+esc(iss.join(" · "))+"</span>":"";
+  renderStats();
+}
+function onEdit(i,el){
+  const q=state.questions[i];
+  if(el.dataset.o!=null)q.options[+el.dataset.o]=el.value;else q[el.dataset.f]=el.value;
+  if(el.tagName==="TEXTAREA")autosize(el);
+  refreshItem(i);
+}
+function setAnswer(i,L){
+  const q=state.questions[i];
+  if(!(q.options[L5.indexOf(L)]||"").trim()){toast("Isi teks opsi "+L+" terlebih dahulu","error");return;}
+  q.answer=L;q.answerSource="";refreshItem(i);
+}
+function addQuestion(){
+  const n=state.questions.reduce((m,q)=>Math.max(m,Number(q.number)||0),0)+1;
+  state.questions.push({number:n,question:"",options:["","","","",""],answer:"",answerSource:"",explanation:""});
+  state.filter="all";state.open.add(state.questions.length-1);renderReview();
+  const el=document.querySelector(`.qitem[data-i="${state.questions.length-1}"]`);
+  if(el){el.scrollIntoView({behavior:"smooth",block:"center"});setTimeout(()=>el.querySelector("textarea").focus(),350);}
+  toast("Soal baru ditambahkan","success");
+}
+function removeQ(i){
+  const [q]=state.questions.splice(i,1),wasOpen=state.open.has(i);
+  state.open=new Set([...state.open].filter(k=>k!==i).map(k=>k>i?k-1:k));
+  renderReview();
+  toast("Soal "+(i+1)+" dihapus","info",{label:"Urungkan",fn:()=>{
+    state.questions.splice(i,0,q);
+    state.open=new Set([...state.open].map(k=>k>=i?k+1:k));if(wasOpen)state.open.add(i);
+    renderReview();
+  }});
+}
+function toFormats(){
+  if(!state.questions.length){toast("Belum ada soal","error");return;}
+  const bad=state.questions.map((q,i)=>[q,i]).filter(([q])=>issuesOf(q).length);
+  if(bad.length){
+    state.filter="bad";bad.slice(0,3).forEach(([,i])=>state.open.add(i));renderReview();
+    toast(bad.length+" soal masih perlu diperbaiki (misalnya kunci jawaban belum dipilih)","error");
+    window.scrollTo({top:$("stats").getBoundingClientRect().top+window.scrollY-90,behavior:"smooth"});
+    return;
+  }
+  goStep(3);
+}
+
+/* =================== Step 3: format =================== */
+function renderFormats(){
+  const withE=state.questions.filter(q=>q.options[4].trim()).length;
+  $("qcount3").textContent=state.questions.length+" soal akan dikonversi.";
+  $("fmts").innerHTML=FORMATS.map(f=>{
+    const on=state.formats.has(f.id);
+    const note=f.id==="kahoot"&&withE?`<div class="note">${ic("alert")}${withE} soal punya opsi E, tidak didukung Kahoot.</div>`:"";
+    return `<button class="fmt" role="checkbox" aria-checked="${on}" onclick="toggleFormat('${f.id}')">
+      <span class="check">${ic("check")}</span>
+      <span class="fmt-ic ${f.tone}">${ic(f.icon)}</span>
+      <span class="fmt-body"><h3>${f.name}</h3><p>${f.desc}</p><span class="ext">${f.ext}</span>${note}</span></button>`;
+  }).join("");
+  $("gfBox").classList.toggle("hidden",!state.formats.has("gforms"));
+  const n=state.formats.size,m=$("fmtMsg");
+  if(state.formats.has("kahoot")&&withE){m.className="msg warn";m.innerHTML=ic("alert")+"Kahoot akan gagal untuk soal dengan opsi E";}
+  else{m.className="msg";m.textContent=n?n+" format dipilih":"Pilih minimal satu format";}
+  const b=$("convertBtn");if(!state.busy){b.disabled=!n;b.querySelector("span").textContent=n>1?"Konversi "+n+" format":"Konversi";}
+}
+function toggleFormat(id){if(state.busy)return;state.formats.has(id)?state.formats.delete(id):state.formats.add(id);renderFormats();}
+function selectAllFormats(on){if(state.busy)return;state.formats=new Set(on?FORMATS.map(f=>f.id):[]);renderFormats();}
+async function convert(){
+  if(state.busy||!state.formats.size)return;
+  const order=FORMATS.map(f=>f.id).filter(id=>state.formats.has(id)&&id!=="gforms");
+  if(state.formats.has("gforms"))order.push("gforms");
+  const questions=state.questions.map(q=>({number:q.number,question:q.question,options:q.options.slice(),answer:q.answer,explanation:q.explanation}));
+  const title=$("formTitle").value.trim()||"Kuis dari Soalify";
+  state.busy=true;state.results=[];showErr("convErr","");
+  const btn=$("convertBtn");setBusy(btn,true,"Mengonversi…");$("backTo2").disabled=true;
+  $("progress").classList.remove("hidden");renderStepper();
+  for(let k=0;k<order.length;k++){
+    const id=order[k];
+    $("progText").textContent=(id==="gforms"?"Membuat Google Form":"Membuat file "+FMT[id].name)+"…";
+    $("progCount").textContent=(k+1)+" / "+order.length;
+    $("progFill").style.width=Math.max(6,k/order.length*100)+"%";
+    try{
+      if(id==="gforms"){const form=await run("createGoogleQuiz",{title,questions});state.results.push({id,ok:true,form});}
+      else{const file=await run("exportQuestions",{format:id,questions});state.results.push({id,ok:true,file});}
+    }catch(e){state.results.push({id,ok:false,error:errText(e)});}
+  }
+  $("progFill").style.width="100%";
+  await new Promise(r=>setTimeout(r,350));
+  state.busy=false;setBusy(btn,false);$("backTo2").disabled=false;$("progress").classList.add("hidden");$("progFill").style.width="0";
+  const ok=state.results.filter(r=>r.ok).length;
+  if(!ok){
+    showErr("convErr","Semua format gagal dibuat. "+state.results.map(r=>FMT[r.id].name+": "+r.error).join(" · "));
+    toast("Konversi gagal","error");renderFormats();renderStepper();return;
+  }
+  toast(ok===state.results.length?"Konversi berhasil!":"Sebagian format berhasil dibuat",ok===state.results.length?"success":"info");
+  goStep(4);renderSuccess();
+}
+
+/* =================== Step 4: hasil =================== */
+function renderSuccess(){
+  const rs=state.results,ok=rs.filter(r=>r.ok),fail=rs.filter(r=>!r.ok),files=ok.filter(r=>r.file);
+  const partial=fail.length>0;
+  $("successCard").innerHTML=`
+    <div class="burst${partial?" partial":""}">${partial?ic("alert"):'<svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>'}</div>
+    <h2>${partial?"Konversi Selesai Sebagian":"Konversi Berhasil!"}</h2>
+    <p>${partial?ok.length+" dari "+rs.length+" format berhasil dibuat. Periksa format yang gagal di bawah.":"Dokumen soal kamu berhasil dikonversi dan siap digunakan."}</p>
+    <div class="summary"><span class="pill blue">${ic("list")}${state.questions.length} soal</span><span class="pill green">${ic("checkCircle")}${ok.length} format berhasil</span>${fail.length?`<span class="pill red">${ic("xCircle")}${fail.length} gagal</span>`:""}${state.source?`<span class="pill blue">${ic("file")}${esc(state.source)}</span>`:""}</div>
+    <div class="results">${rs.map((r,k)=>resultHtml(r,k)).join("")}</div>
+    <div class="row" style="justify-content:center;margin-top:22px">
+      ${files.length>1?`<button class="btn btn-success" onclick="downloadAll()">${ic("download")}Download semua (${files.length})</button>`:""}
+      <button class="btn btn-secondary" onclick="goStep(3)">${ic("layers")}Pilih format lain</button>
+      <button class="btn btn-primary" onclick="resetAll()">${ic("refresh")}Konversi Lagi</button>
+    </div>`;
+}
+function resultHtml(r,k){
+  const f=FMT[r.id];
+  if(!r.ok)return `<div class="card res fail"><span class="fmt-ic t-red">${ic("xCircle")}</span>
+    <div class="res-main"><div class="res-title">${f.name}<span class="pill red">Gagal</span></div><div class="res-sub">${esc(r.error)}</div></div></div>`;
+  if(r.form)return `<div class="card res"><span class="fmt-ic ${f.tone}">${ic(f.icon)}</span>
+    <div class="res-main"><div class="res-title">${esc(r.form.title)}<span class="pill green">${ic("check")}Dibuat</span></div><div class="res-sub">Google Forms Mode Kuis · ${r.form.total} soal</div></div>
+    <div class="res-act"><a class="btn btn-secondary" target="_blank" rel="noopener" href="${esc(r.form.editUrl)}">${ic("edit")}Edit Form</a>
+      <a class="btn btn-primary" target="_blank" rel="noopener" href="${esc(r.form.publishedUrl)}">${ic("external")}Buka Form</a></div></div>`;
+  const size=Math.floor(r.file.base64.length*3/4);
+  return `<div class="card res"><span class="fmt-ic ${f.tone}">${ic(f.icon)}</span>
+    <div class="res-main"><div class="res-title">${esc(r.file.filename)}<span class="pill green">${ic("check")}Berhasil</span></div><div class="res-sub">${f.name} · ${f.ext} · ${fmtSize(size)} · ${state.questions.length} soal</div></div>
+    <div class="res-act"><button class="btn btn-primary" onclick="downloadResult(${k})">${ic("download")}Download</button></div></div>`;
+}
+function downloadFile(file){
+  const bin=atob(file.base64),bytes=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+  const url=URL.createObjectURL(new Blob([bytes],{type:file.mimeType}));
+  const a=document.createElement("a");a.href=url;a.download=file.filename;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+function downloadResult(k){const r=state.results[k];if(r&&r.file){downloadFile(r.file);toast("Mengunduh "+r.file.filename,"success");}}
+function downloadAll(){
+  const files=state.results.filter(r=>r.ok&&r.file);
+  files.forEach((r,i)=>setTimeout(()=>downloadFile(r.file),i*450));
+  toast("Mengunduh "+files.length+" file","success");
+}
+async function resetAll(){
+  if(state.busy)return;
+  if(state.questions.length&&state.step<4&&!(await confirmBox({title:"Mulai dari awal?",text:"Soal yang sedang diperiksa beserta hasil editnya akan dihapus dari halaman ini.",ok:"Mulai baru",danger:true})))return;
+  state.questions=[];state.results=[];state.source="";state.maxStep=1;state.open=new Set();
+  clearFile();$("pasteText").value="";autosize($("pasteText"));updateCount();showErr("inputErr","");showErr("convErr","");
+  goStep(1);window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* =================== Panduan & template =================== */
+const TEMPLATE=`SOAL PILIHAN GANDA
+(Template Soalify - nomor soal tidak wajib, opsi cukup diberi huruf A-E)
+
+1. Tulis pertanyaan pertama di sini ...
+A. Opsi pertama
+B. Opsi kedua *
+C. Opsi ketiga
+D. Opsi keempat
+E. Opsi kelima
+Pembahasan: (opsional) alasan jawaban benar.
+
+2. Tulis pertanyaan kedua di sini ...
+A. Opsi pertama
+B. Opsi kedua
+C. Opsi ketiga
+D. Opsi keempat
+Kunci: C
+
+Keterangan:
+- Tandai jawaban benar dengan * di akhir opsi, atau tulis baris "Kunci: B".
+- Di Word, jawaban benar juga bisa ditebalkan, di-highlight, diberi warna, atau digaris bawah.
+- Opsi boleh ditulis dalam satu baris: A. ... B. ... C. ... D. ...
+`;
+function downloadTemplate(){
+  downloadFile({filename:"Template_Soalify.txt",mimeType:"text/plain;charset=utf-8",base64:btoa(unescape(encodeURIComponent(TEMPLATE)))});
+  toast("Template diunduh. Buka di Word/Notepad, isi soal, lalu upload.","success");
+}
+function openGuide(section){
+  $("modal").innerHTML=`<div class="card modal-box" role="dialog" aria-modal="true" aria-labelledby="gTitle">
+    <div class="row"><h2 id="gTitle">Panduan Soalify</h2><span class="spacer"></span><button class="iconbtn" onclick="closeGuide()" aria-label="Tutup">${ic("x")}</button></div>
+    <h4>Cara pakai</h4>
+    <ol><li><b>Upload Soal:</b> unggah file (Word, PDF, PowerPoint, Excel, CSV, TXT, foto) atau ketik/paste soal.</li>
+      <li><b>Deteksi &amp; Pemeriksaan:</b> cek pertanyaan, opsi, dan kunci. Klik huruf opsi untuk mengganti jawaban benar.</li>
+      <li><b>Pilih Format Output:</b> pilih satu atau beberapa format sekaligus.</li>
+      <li><b>Download Hasil:</b> unduh file, atau buka Google Form yang baru dibuat.</li></ol>
+    <h4>Format penulisan soal</h4>
+    <p>Tidak perlu template khusus. Soal dikenali selama opsinya berlabel huruf berurutan (<code class="k">A.</code> <code class="k">a)</code> <code class="k">(A)</code>, boleh dalam satu baris) atau berupa daftar bullet. Nomor soal tidak wajib.</p>
+    <pre>1. Ibu kota Indonesia adalah ...
+A. Bandung
+B. Jakarta *
+C. Surabaya
+Pembahasan: ...</pre>
+    <h4>Menandai jawaban benar</h4>
+    <ul><li>Word: tebalkan, highlight, beri warna, atau garis bawahi opsi yang benar (cukup satu opsi per soal).</li>
+      <li>Teks: <code class="k">B. Jakarta *</code>, <code class="k">B. Jakarta ✓</code>, <code class="k">Kunci: B</code>, atau <code class="k">Jawaban: Jakarta</code>.</li>
+      <li>Tabel kunci di akhir dokumen: <code class="k">1. A 2. C 3. B</code>.</li>
+      <li>Excel: kolom berjudul <b>Kunci</b> / <b>Correct Answer</b>.</li></ul>
+    <h4 id="gHelp">Bantuan &amp; masalah umum</h4>
+    <ul><li><b>Soal tidak terdeteksi:</b> pastikan setiap soal punya minimal 2 opsi berlabel A, B, C, ….</li>
+      <li><b>Kunci tidak terbaca:</b> jangan tebalkan semua opsi, karena hanya opsi yang berbeda sendiri yang dianggap kunci. Atau pilih kunci manual di langkah 2.</li>
+      <li><b>PDF/foto:</b> dibaca dengan OCR. Format tebal/warna biasanya hilang, jadi tulis kunci sebagai teks.</li>
+      <li><b>Kahoot:</b> hanya mendukung 4 opsi. Soal dengan opsi E perlu disesuaikan.</li>
+      <li><b>EvalBee:</b> berupa lembar referensi kunci (nomor + jawaban), bukan format impor resmi.</li>
+      <li>Gambar, tabel kompleks, dan rumus di dalam soal mungkin perlu dirapikan manual.</li></ul>
+    <div class="row" style="margin-top:18px"><button class="btn btn-secondary" onclick="downloadTemplate()">${ic("download")}Unduh template</button><span class="spacer"></span><button class="btn btn-primary" onclick="closeGuide()">Mengerti</button></div>
+  </div>`;
+  $("modal").classList.remove("hidden");
+  document.body.style.overflow="hidden";
+}
+function closeGuide(){$("modal").classList.add("hidden");$("modal").innerHTML="";document.body.style.overflow="";}
+
+/* =================== Init =================== */
+(function init(){
+  paintThemeBtn();renderStepper();
+  $("year").textContent=new Date().getFullYear();
+  const drop=$("drop");
+  ["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("drag");}));
+  ["dragleave","dragend"].forEach(ev=>drop.addEventListener(ev,e=>{if(!drop.contains(e.relatedTarget))drop.classList.remove("drag");}));
+  drop.addEventListener("drop",e=>{e.preventDefault();drop.classList.remove("drag");const f=e.dataTransfer&&e.dataTransfer.files[0];if(f)setFile(f);});
+  drop.addEventListener("click",e=>{if(e.target===drop||e.target.closest(".drop-ic")||e.target.tagName==="H3")$("file").click();});
+  window.addEventListener("dragover",e=>e.preventDefault());window.addEventListener("drop",e=>e.preventDefault());
+  $("file").addEventListener("change",e=>{const f=e.target.files[0];if(f)setFile(f);});
+  const pt=$("pasteText");pt.addEventListener("input",()=>{autosize(pt);updateCount();});
+  pt.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key==="Enter")parsePasted();});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("modal").classList.contains("hidden")){const c=$("modal").querySelector('[data-v="0"]');c?c.click():closeGuide();}});
+  // Peringatan sebelum menutup halaman saat ada soal yang belum dikonversi.
+  window.addEventListener("beforeunload",e=>{if(state.questions.length&&!state.results.some(r=>r.ok)){e.preventDefault();e.returnValue="";}});
+  if(window.matchMedia)matchMedia("(prefers-color-scheme: dark)").addEventListener&&matchMedia("(prefers-color-scheme: dark)").addEventListener("change",paintThemeBtn);
+})();
+</script>
+</body>
+</html>
