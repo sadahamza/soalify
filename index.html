@@ -331,6 +331,8 @@ body.is-admin .navbtn.auth.admin-only{display:inline-flex}
 .lbl small{font-weight:500;color:var(--faint)}
 .gate .btn{width:100%;margin-top:20px}
 .gate-note{margin-top:16px;text-align:center;font-size:13px;color:var(--faint)}
+.gate-note .wa-link{color:var(--primary);font-weight:700;text-decoration:none;white-space:nowrap}
+.gate-note .wa-link:hover{text-decoration:underline}
 .code-inp{text-transform:uppercase;letter-spacing:.12em;font-family:ui-monospace,Consolas,monospace}
 .who{font-size:13px;font-weight:700;color:var(--muted);padding:6px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--border);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .adm-form{display:grid;grid-template-columns:1fr 1fr;gap:0 12px;padding:16px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-2);margin-top:16px}
@@ -425,7 +427,7 @@ body.is-admin .navbtn.auth.admin-only{display:inline-flex}
     <input class="field code-inp" id="loginCode" name="password" type="password" autocomplete="current-password" required>
     <div id="loginErr" class="err hidden"></div>
     <button class="btn btn-primary" id="loginBtn" type="submit">Masuk</button>
-    <div class="gate-note">Belum punya kode akses? Hubungi <b>Sayyidina Hamzah</b>.</div>
+    <div class="gate-note">Belum punya kode akses? Hubungi <a class="wa-link" href="https://wa.me/6283151399584?text=Assalamu%27alaikum%2C%20saya%20ingin%20meminta%20username%20dan%20kode%20akses%20Soalify." target="_blank" rel="noopener" title="Chat lewat WhatsApp">Sayyidina Hamzah</a>.</div>
   </form>
 </section>
 
