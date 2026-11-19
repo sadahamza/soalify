@@ -688,7 +688,7 @@ function unlockApp(me){
   AUTH.me=me;
   document.body.classList.remove("locked");
   document.body.classList.toggle("is-admin",me.role==="admin");
-  $("whoName").textContent=me.username+(me.role==="admin"?" · admin":"");
+  $("whoName").textContent=me.username;
   $("whoName").title="Masuk sebagai "+me.username;
 }
 function lockApp(msg){
