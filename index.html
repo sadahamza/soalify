@@ -333,6 +333,14 @@ body.is-admin .navbtn.auth.admin-only{display:inline-flex}
 .gate-note{margin-top:16px;text-align:center;font-size:13px;color:var(--faint)}
 .gate-note .wa-link{color:var(--primary);font-weight:700;text-decoration:none;white-space:nowrap}
 .gate-note .wa-link:hover{text-decoration:underline}
+.gate-tabs{display:flex;width:100%;margin:0 0 18px}.gate-tabs button{flex:1;justify-content:center}
+.gate-switch{margin-top:14px;text-align:center;font-size:13.5px;color:var(--muted)}
+.gate-switch a{font-weight:700;text-decoration:none}.gate-switch a:hover{text-decoration:underline}
+.pw-row{position:relative}.pw-row .field{padding-right:96px}
+.pw-eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--muted);font-size:12.5px;font-weight:700;padding:6px 10px;border-radius:8px}
+.pw-eye:hover{background:var(--surface-2);color:var(--ink)}
+.otp{font-size:22px;text-align:center;letter-spacing:.5em;padding-left:.5em}
+.gate .card{border-top:4px solid var(--primary)}
 .code-inp{text-transform:uppercase;letter-spacing:.12em;font-family:ui-monospace,Consolas,monospace}
 .who{font-size:13px;font-weight:700;color:var(--muted);padding:6px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--border);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .adm-form{display:grid;grid-template-columns:1fr 1fr;gap:0 12px;padding:16px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-2);margin-top:16px}
@@ -417,18 +425,61 @@ body.is-admin .navbtn.auth.admin-only{display:inline-flex}
 </header>
 
 <section class="gate" id="gate">
-  <form class="card" id="loginForm" onsubmit="doLogin(event)" autocomplete="on">
+  <div class="card">
     <div class="gate-ic t-blue"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-    <h1>Masuk ke Soalify</h1>
-    <p>Gunakan username dan kode akses yang diberikan oleh pengelola Soalify.</p>
-    <label class="lbl" for="loginUser">Username</label>
-    <input class="field" id="loginUser" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required>
-    <label class="lbl" for="loginCode">Kode akses</label>
-    <input class="field code-inp" id="loginCode" name="password" type="password" autocomplete="current-password" required>
-    <div id="loginErr" class="err hidden"></div>
-    <button class="btn btn-primary" id="loginBtn" type="submit">Masuk</button>
-    <div class="gate-note">Belum punya kode akses? Hubungi <a class="wa-link" href="https://wa.me/6283151399584?text=Assalamu%27alaikum%2C%20saya%20ingin%20meminta%20username%20dan%20kode%20akses%20Soalify." target="_blank" rel="noopener" title="Chat lewat WhatsApp">Sayyidina Hamzah</a>.</div>
-  </form>
+
+    <div class="seg gate-tabs" role="tablist" id="gateTabs">
+      <button type="button" role="tab" id="tabLogin" aria-selected="true" onclick="showGate('login')">Masuk</button>
+      <button type="button" role="tab" id="tabRegister" aria-selected="false" onclick="showGate('register')">Daftar</button>
+    </div>
+
+    <!-- MASUK -->
+    <form id="loginForm" onsubmit="doLogin(event)" autocomplete="on">
+      <h1>Masuk ke Soalify</h1>
+      <p>Masuk dengan akun yang sudah Anda daftarkan.</p>
+      <label class="lbl" for="loginUser">Username atau email</label>
+      <input class="field" id="loginUser" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+      <label class="lbl" for="loginPass">Password</label>
+      <div class="pw-row"><input class="field" id="loginPass" name="password" type="password" autocomplete="current-password" required>
+        <button type="button" class="pw-eye" onclick="togglePw('loginPass',this)" aria-label="Tampilkan password">Lihat</button></div>
+      <div id="loginErr" class="err hidden"></div>
+      <button class="btn btn-primary" id="loginBtn" type="submit">Masuk</button>
+      <div class="gate-switch">Belum punya akun? <a href="#" onclick="showGate('register');return false">Daftar sekarang</a></div>
+    </form>
+
+    <!-- DAFTAR -->
+    <form id="registerForm" class="hidden" onsubmit="doRegister(event)" autocomplete="on">
+      <h1>Daftar akun Soalify</h1>
+      <p>Isi data di bawah. Kode akses akan dikirim ke email Anda untuk mengaktifkan akun.</p>
+      <label class="lbl" for="regName">Nama lengkap</label>
+      <input class="field" id="regName" name="name" autocomplete="name" maxlength="80" required>
+      <label class="lbl" for="regEmail">Email</label>
+      <input class="field" id="regEmail" name="email" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="120" required>
+      <label class="lbl" for="regUser">Username <small>(huruf kecil, angka, titik, strip; tanpa spasi)</small></label>
+      <input class="field" id="regUser" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" minlength="3" maxlength="30" pattern="[a-zA-Z0-9._\-]{3,30}" required>
+      <label class="lbl" for="regPass">Password <small>(minimal 6 karakter)</small></label>
+      <div class="pw-row"><input class="field" id="regPass" name="new-password" type="password" autocomplete="new-password" minlength="6" maxlength="100" required>
+        <button type="button" class="pw-eye" onclick="togglePw('regPass',this)" aria-label="Tampilkan password">Lihat</button></div>
+      <div id="regErr" class="err hidden"></div>
+      <button class="btn btn-primary" id="regBtn" type="submit">Daftar &amp; kirim kode akses</button>
+      <div class="gate-switch">Sudah punya akun? <a href="#" onclick="showGate('login');return false">Masuk</a></div>
+    </form>
+
+    <!-- VERIFIKASI KODE -->
+    <form id="verifyForm" class="hidden" onsubmit="doVerify(event)" autocomplete="off">
+      <h1>Masukkan kode akses</h1>
+      <p id="verifyInfo">Kode akses 6 digit sudah dikirim ke email Anda.</p>
+      <label class="lbl" for="verifyCode">Kode akses</label>
+      <input class="field code-inp otp" id="verifyCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="••••••" required>
+      <div id="verifyErr" class="err hidden"></div>
+      <button class="btn btn-primary" id="verifyBtn" type="submit">Aktifkan akun</button>
+      <div class="gate-switch">Tidak menerima email? Cek folder Spam/Promosi, atau
+        <a href="#" id="resendLink" onclick="doResend();return false">kirim ulang kode</a>.<br>
+        <a href="#" onclick="showGate('login');return false">Kembali ke Masuk</a></div>
+    </form>
+
+    <div class="gate-note">Butuh bantuan? Hubungi <a class="wa-link" href="https://wa.me/6283151399584?text=Assalamu%27alaikum%2C%20saya%20butuh%20bantuan%20akun%20Soalify." target="_blank" rel="noopener" title="Chat lewat WhatsApp">Sayyidina Hamzah</a>.</div>
+  </div>
 </section>
 
 <main class="wrap">
@@ -665,71 +716,123 @@ function confirmBox(o){
 }
 /* Backend: Web App Apps Script (backend/Code.gs). Body text/plain = simple request, tanpa preflight CORS. */
 const API_URL="https://script.google.com/macros/s/AKfycbzthU16cjLeyWdMwWqjxRfukEegF0QwZbR5MJSm7WxEijvVy787hGs7Z2jz5ZOCne0d/exec";
-async function run(fn,arg,authOverride){
+const PUBLIC_API={login:1,register:1,verifyEmail:1,resendCode:1,ping:1};
+async function run(fn,arg){
   let res;
-  const auth=authOverride||AUTH.creds;
-  try{res=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:fn,payload:arg||{},auth:auth||undefined})});}
+  const auth=PUBLIC_API[fn]?undefined:(AUTH.creds?{username:AUTH.creds.username,token:AUTH.creds.token}:undefined);
+  try{res=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:fn,payload:arg||{},auth})});}
   catch(e){throw new Error("Tidak dapat terhubung ke server. Periksa koneksi internet.");}
   let out;try{out=await res.json();}catch(e){throw new Error("Respons server tidak valid (HTTP "+res.status+").");}
   if(!out||!out.ok){
     const err=new Error((out&&out.error)||"Terjadi kesalahan di server.");
-    if(out&&out.code==="AUTH"){err.auth=true;if(!authOverride)lockApp(err.message);}
+    err.code=out&&out.code;err.extra=out&&out.extra;
+    if(err.code==="AUTH"&&!PUBLIC_API[fn])lockApp(err.message);
     throw err;
   }
   return out.data;
 }
 
-/* =================== Akses (login) =================== */
-const AUTH={creds:null,me:null};
+/* =================== Akses: daftar, verifikasi email, masuk =================== */
+const AUTH={creds:null,me:null,pending:null};
 const AUTH_KEY="sc-auth";
 function saveCreds(c){try{c?localStorage.setItem(AUTH_KEY,JSON.stringify(c)):localStorage.removeItem(AUTH_KEY);}catch(e){}}
-function loadCreds(){try{const c=JSON.parse(localStorage.getItem(AUTH_KEY)||"null");return c&&c.username&&c.code?c:null;}catch(e){return null;}}
+function loadCreds(){try{const c=JSON.parse(localStorage.getItem(AUTH_KEY)||"null");return c&&c.username&&c.token?c:null;}catch(e){return null;}}
+function togglePw(id,btn){const el=$(id),show=el.type==="password";el.type=show?"text":"password";btn.textContent=show?"Sembunyikan":"Lihat";}
+function showGate(view,keepErr){
+  ["login","register","verify"].forEach(v=>$(v+"Form").classList.toggle("hidden",v!==view));
+  $("gateTabs").classList.toggle("hidden",view==="verify");
+  $("tabLogin").setAttribute("aria-selected",view==="login");
+  $("tabRegister").setAttribute("aria-selected",view==="register");
+  if(!keepErr)["loginErr","regErr","verifyErr"].forEach(id=>showErr(id,""));
+  const first={login:$("loginUser").value?"loginPass":"loginUser",register:"regName",verify:"verifyCode"}[view];
+  setTimeout(()=>$(first)&&$(first).focus(),50);
+}
 function unlockApp(me){
   AUTH.me=me;
   document.body.classList.remove("locked");
   document.body.classList.toggle("is-admin",me.role==="admin");
   $("whoName").textContent=me.username;
-  $("whoName").title="Masuk sebagai "+me.username;
+  $("whoName").title=(me.name&&me.role!=="admin"?me.name+" · ":"")+"Masuk sebagai "+me.username;
 }
 function lockApp(msg){
   AUTH.creds=null;AUTH.me=null;saveCreds(null);
   document.body.classList.add("locked");document.body.classList.remove("is-admin");
   if(!$("modal").classList.contains("hidden"))closeGuide();
-  showErr("loginErr",msg||"");
-  setTimeout(()=>($("loginUser").value?$("loginCode"):$("loginUser")).focus(),50);
+  showGate("login");
+  if(msg)showErr("loginErr",msg);
+}
+function onAuthed(r){
+  AUTH.creds={username:r.me.username,token:r.token,role:r.me.role};saveCreds(AUTH.creds);
+  AUTH.pending=null;$("loginPass").value="";$("regPass").value="";$("verifyCode").value="";
+  unlockApp(r.me);toast("Selamat datang, "+(r.me.name&&r.me.role!=="admin"?r.me.name:r.me.username)+"!","success");
+}
+function goVerify(info){
+  AUTH.pending=info;
+  $("verifyInfo").textContent="Kode akses 6 digit sudah dikirim ke "+info.email+". Kode berlaku "+(info.minutes||30)+" menit.";
+  $("verifyCode").value="";
+  showGate("verify",true);
 }
 async function doLogin(e){
   if(e)e.preventDefault();
-  const creds={username:$("loginUser").value.trim().toLowerCase(),code:$("loginCode").value.trim().toUpperCase()};
-  if(!creds.username||!creds.code){showErr("loginErr","Isi username dan kode akses.");return;}
+  const username=$("loginUser").value.trim().toLowerCase(),password=$("loginPass").value;
+  if(!username||!password){showErr("loginErr","Isi username/email dan password.");return;}
   const btn=$("loginBtn");setBusy(btn,true,"Memeriksa…");showErr("loginErr","");
-  try{
-    const me=await run("login",{},creds);
-    AUTH.creds=creds;saveCreds(creds);$("loginCode").value="";
-    unlockApp(me);toast("Selamat datang, "+me.username+"!","success");
-  }catch(err){showErr("loginErr",errText(err));$("loginCode").select();}
+  try{onAuthed(await run("login",{username,password}));}
+  catch(err){
+    if(err.code==="UNVERIFIED"&&err.extra){goVerify(err.extra);showErr("verifyErr",errText(err));}
+    else{showErr("loginErr",errText(err));$("loginPass").select();}
+  }
   finally{setBusy(btn,false);}
+}
+async function doRegister(e){
+  if(e)e.preventDefault();
+  const p={name:$("regName").value.trim(),email:$("regEmail").value.trim().toLowerCase(),
+    username:$("regUser").value.trim().toLowerCase(),password:$("regPass").value};
+  if(!/^[a-z0-9._-]{3,30}$/.test(p.username)){showErr("regErr","Username 3–30 karakter: huruf, angka, titik, garis bawah, atau strip (tanpa spasi).");$("regUser").focus();return;}
+  if(p.password.length<6){showErr("regErr","Password minimal 6 karakter.");$("regPass").focus();return;}
+  const btn=$("regBtn");setBusy(btn,true,"Mengirim kode ke email…");showErr("regErr","");
+  try{const r=await run("register",p);$("loginUser").value=r.username;goVerify(r);toast("Kode akses dikirim ke "+r.email,"success");}
+  catch(err){showErr("regErr",errText(err));}
+  finally{setBusy(btn,false);}
+}
+async function doVerify(e){
+  if(e)e.preventDefault();
+  const code=$("verifyCode").value.replace(/\D/g,"");
+  if(code.length!==6){showErr("verifyErr","Masukkan 6 digit kode akses dari email.");return;}
+  if(!AUTH.pending){showGate("login");return;}
+  const btn=$("verifyBtn");setBusy(btn,true,"Memeriksa…");showErr("verifyErr","");
+  try{onAuthed(await run("verifyEmail",{username:AUTH.pending.username,code}));}
+  catch(err){showErr("verifyErr",errText(err));$("verifyCode").select();}
+  finally{setBusy(btn,false);}
+}
+async function doResend(){
+  if(!AUTH.pending){showGate("login");return;}
+  const a=$("resendLink");if(a.dataset.busy)return;a.dataset.busy="1";a.textContent="mengirim…";showErr("verifyErr","");
+  try{const r=await run("resendCode",{username:AUTH.pending.username});goVerify(r);toast("Kode baru dikirim ke "+r.email,"success");}
+  catch(err){showErr("verifyErr",errText(err));}
+  finally{delete a.dataset.busy;a.textContent="kirim ulang kode";}
 }
 async function logout(){
   if(state.questions.length&&!state.results.some(r=>r.ok)&&!(await confirmBox({title:"Keluar sekarang?",text:"Soal yang sedang dikerjakan belum dikonversi dan akan hilang.",ok:"Keluar"})))return;
+  run("logout").catch(()=>{});
   state.questions=[];
   lockApp("");if(typeof resetAll==="function")try{resetAll();}catch(e){}
-  $("loginUser").value="";
 }
 async function restoreSession(){
   const c=loadCreds();
+  saveCreds(c); // buang data login format lama (kode akses) bila ada
   if(!c){lockApp("");return;}
   $("loginUser").value=c.username;
-  // Tampilkan aplikasi langsung, lalu verifikasi diam-diam ke server.
+  // Tampilkan aplikasi langsung, lalu verifikasi sesi diam-diam ke server.
   AUTH.creds=c;unlockApp({username:c.username,role:c.role||"user"});
-  try{const me=await run("login",{},c);c.role=me.role;saveCreds(c);unlockApp(me);}
-  catch(err){if(err.auth)lockApp(errText(err));}
+  try{const me=await run("me");unlockApp(me);}
+  catch(err){/* AUTH -> run() sudah mengunci aplikasi */}
 }
 
 /* =================== Kelola pengguna (admin) =================== */
 const ADM={users:[],edit:null,loading:false,error:""};
-function genAccessCode(){
-  const a="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",r=new Uint32Array(8);crypto.getRandomValues(r);
+function genPassword(){
+  const a="abcdefghjkmnpqrstuvwxyz23456789",r=new Uint32Array(8);crypto.getRandomValues(r);
   return Array.from(r,n=>a[n%a.length]).join("");
 }
 function fmtDate(s){if(!s)return"";const d=new Date(s.length===10?s+"T00:00:00":s);return isNaN(d)?s:d.toLocaleDateString("id-ID",{day:"numeric",month:"short",year:"numeric"});}
@@ -744,40 +847,50 @@ async function loadUsers(){
   try{ADM.users=await run("adminListUsers");}catch(e){ADM.error=errText(e);}
   ADM.loading=false;renderAdmin();
 }
+function userStatus(u){
+  const today=todayISO();
+  if(!u.active)return['<span class="pill red">Nonaktif</span>',true];
+  if(!u.verified)return['<span class="pill orange">Belum verifikasi email</span>',true];
+  if(u.expires&&u.expires<today)return['<span class="pill orange">Kedaluwarsa</span>',true];
+  return['<span class="pill green">Aktif</span>',false];
+}
 function renderAdmin(){
   const m=$("modal");if(m.classList.contains("hidden"))return;
-  const e=ADM.edit,isNew=!e||e.isNew;
-  const f=e||{isNew:true,username:"",code:genAccessCode(),note:"",expires:"",active:true};ADM.edit=f;
-  const today=todayISO();
+  const isNew=!ADM.edit||ADM.edit.isNew;
+  const f=ADM.edit||{isNew:true,username:"",name:"",email:"",password:genPassword(),expires:"",active:true};ADM.edit=f;
+  const q=(ADM.q||"").toLowerCase();
+  const shown=ADM.users.filter(u=>!q||(u.username+" "+u.name+" "+u.email).toLowerCase().includes(q));
   const list=ADM.loading&&!ADM.users.length?`<div class="adm-empty"><span class="spin" style="display:inline-block;vertical-align:middle;margin-right:8px"></span>Memuat daftar pengguna…</div>`
     :ADM.error?`<div class="err">${ic("alert")}<span>${esc(ADM.error)}</span></div>`
-    :!ADM.users.length?`<div class="adm-empty">Belum ada pengguna. Tambahkan lewat formulir di atas.</div>`
-    :ADM.users.map(u=>{
-      const expired=u.expires&&u.expires<today,off=u.active===false;
-      const status=off?'<span class="pill red">Nonaktif</span>':expired?'<span class="pill orange">Kedaluwarsa</span>':'<span class="pill green">Aktif</span>';
-      return `<div class="adm-user${off||expired?" off":""}">
-        <div class="u"><b>${esc(u.username)} ${status}</b>
-          <span>Kode: <code>${esc(u.code)}</code>${u.note?" · "+esc(u.note):""}</span>
-          <span>${u.expires?"Berlaku s.d. "+esc(fmtDate(u.expires)):"Tanpa batas waktu"} · ${u.lastLogin?"Terakhir masuk "+esc(fmtDate(u.lastLogin)):"Belum pernah masuk"}</span></div>
+    :!ADM.users.length?`<div class="adm-empty">Belum ada pengguna yang mendaftar.</div>`
+    :!shown.length?`<div class="adm-empty">Tidak ada pengguna yang cocok.</div>`
+    :shown.map(u=>{
+      const [status,dim]=userStatus(u),n=esc(u.username);
+      return `<div class="adm-user${dim?" off":""}">
+        <div class="u"><b>${esc(u.name||u.username)} ${status}${u.legacy?' <span class="pill blue">Akun lama</span>':""}</b>
+          <span>@${n}${u.email?" · "+esc(u.email):""}</span>
+          <span>Daftar ${esc(fmtDate(u.createdAt))} · ${u.lastLogin?"Terakhir masuk "+esc(fmtDate(u.lastLogin)):"Belum pernah masuk"}${u.expires?" · Berlaku s.d. "+esc(fmtDate(u.expires)):""}</span></div>
         <div class="acts">
-          <button class="btn btn-ghost" onclick="copyAccess('${esc(u.username)}')" title="Salin username & kode untuk dikirim">${ic("file")}Salin</button>
-          <button class="btn btn-ghost" onclick="editUser('${esc(u.username)}')">${ic("edit")}Ubah</button>
-          <button class="btn btn-ghost" onclick="toggleUser('${esc(u.username)}')">${off?"Aktifkan":"Nonaktifkan"}</button>
-          <button class="btn btn-danger-ghost" onclick="deleteUser('${esc(u.username)}')" title="Hapus pengguna">${ic("trash")}</button>
+          ${u.verified?"":`<button class="btn btn-ghost" onclick="verifyUser('${n}')" title="Aktifkan tanpa kode email">${ic("check")}Verifikasi</button>`}
+          <button class="btn btn-ghost" onclick="editUser('${n}')">${ic("edit")}Ubah</button>
+          <button class="btn btn-ghost" onclick="toggleUser('${n}')">${u.active?"Nonaktifkan":"Aktifkan"}</button>
+          <button class="btn btn-danger-ghost" onclick="deleteUser('${n}')" title="Hapus pengguna">${ic("trash")}</button>
         </div></div>`;}).join("");
   m.innerHTML=`<div class="card modal-box" role="dialog" aria-modal="true" aria-labelledby="admT" style="width:min(760px,100%)">
     <button class="btn btn-ghost modal-x" onclick="closeGuide()" aria-label="Tutup">${ic("x")}</button>
     <h2 id="admT">Kelola Pengguna</h2>
-    <p>Hanya orang yang punya username dan kode akses di daftar ini yang bisa memakai Soalify. Perubahan langsung berlaku.</p>
+    <p>Pengguna mendaftar sendiri dan mengaktifkan akun lewat kode di email. Di sini Anda bisa menonaktifkan, mengubah, atau menambah akun secara manual.</p>
     <form class="adm-form" onsubmit="saveUser(event)">
-      <div class="full" style="font-weight:800;font-size:14.5px">${isNew?"Tambah pengguna baru":"Ubah pengguna "+esc(f.username)}</div>
+      <div class="full" style="font-weight:800;font-size:14.5px">${isNew?"Tambah pengguna manual":"Ubah pengguna @"+esc(f.username)}</div>
       <div><label class="lbl" for="admUser">Username</label>
         <input class="field" id="admUser" value="${esc(f.username)}" ${isNew?"":"disabled"} placeholder="mis. budi.guru" autocapitalize="none" spellcheck="false" required></div>
-      <div><label class="lbl" for="admCode">Kode akses</label>
-        <div class="code-row"><input class="field code-inp" id="admCode" value="${esc(f.code)}" required>
-        <button type="button" class="btn btn-secondary" onclick="$('admCode').value=genAccessCode()" title="Buat kode acak baru">${ic("refresh")}</button></div></div>
-      <div><label class="lbl" for="admNote">Nama / catatan <small>(opsional)</small></label>
-        <input class="field" id="admNote" value="${esc(f.note)}" placeholder="mis. Budi, SMPN 1" maxlength="120"></div>
+      <div><label class="lbl" for="admName">Nama lengkap</label>
+        <input class="field" id="admName" value="${esc(f.name)}" maxlength="80" ${isNew?"required":""}></div>
+      <div><label class="lbl" for="admEmail">Email <small>(opsional)</small></label>
+        <input class="field" id="admEmail" type="email" value="${esc(f.email)}" maxlength="120" autocapitalize="none"></div>
+      <div><label class="lbl" for="admPass">${isNew?"Password":"Password baru <small>(kosong = tidak diubah)</small>"}</label>
+        <div class="code-row"><input class="field" id="admPass" value="${isNew?esc(f.password):""}" ${isNew?"required":""} minlength="6" autocomplete="off">
+        <button type="button" class="btn btn-secondary" onclick="$('admPass').value=genPassword()" title="Buat password acak">${ic("refresh")}</button></div></div>
       <div><label class="lbl" for="admExp">Berlaku sampai <small>(kosong = selamanya)</small></label>
         <input class="field" id="admExp" type="date" value="${esc(f.expires)}"></div>
       <div id="admErr" class="err hidden full"></div>
@@ -787,42 +900,44 @@ function renderAdmin(){
       </div>
     </form>
     <div class="row" style="margin-top:20px;justify-content:space-between"><b>Daftar pengguna (${ADM.users.length})</b>
-      <button class="btn btn-ghost" onclick="loadUsers()" ${ADM.loading?"disabled":""}>${ic("refresh")}Muat ulang</button></div>
+      <div class="row"><input class="field" id="admQ" placeholder="Cari nama, username, email" value="${esc(ADM.q||"")}" oninput="ADM.q=this.value;renderAdminKeepFocus()" style="width:220px;padding:8px 12px">
+      <button class="btn btn-ghost" onclick="loadUsers()" ${ADM.loading?"disabled":""}>${ic("refresh")}Muat ulang</button></div></div>
     <div class="adm-list">${list}</div>
   </div>`;
 }
+function renderAdminKeepFocus(){const pos=$("admQ").selectionStart;renderAdmin();const q=$("admQ");q.focus();q.setSelectionRange(pos,pos);}
 async function saveUser(e){
   e.preventDefault();
   const f=ADM.edit,btn=$("admSave");
   const p={isNew:f.isNew,username:f.isNew?$("admUser").value.trim().toLowerCase():f.username,
-    code:$("admCode").value.trim().toUpperCase(),note:$("admNote").value.trim(),expires:$("admExp").value,active:f.active!==false};
+    name:$("admName").value.trim(),email:$("admEmail").value.trim().toLowerCase(),password:$("admPass").value,expires:$("admExp").value};
   setBusy(btn,true,"Menyimpan…");showErr("admErr","");
   try{
     const u=await run("adminSaveUser",p);
     const i=ADM.users.findIndex(x=>x.username===u.username);
     if(i>=0)ADM.users[i]=u;else ADM.users.unshift(u);
     ADM.edit=null;renderAdmin();
-    if(p.isNew){copyAccess(u.username,true);}else toast("Perubahan disimpan.","success");
+    if(p.password)copyAccess(u.username,p.password,p.isNew);else toast("Perubahan disimpan.","success");
   }catch(err){setBusy(btn,false);showErr("admErr",errText(err));}
 }
-function editUser(name){const u=ADM.users.find(x=>x.username===name);if(!u)return;ADM.edit=Object.assign({isNew:false},u);renderAdmin();$("admCode").focus();}
-async function toggleUser(name){
-  const u=ADM.users.find(x=>x.username===name);if(!u)return;
-  try{const r=await run("adminSaveUser",{isNew:false,username:name,active:u.active===false});Object.assign(u,r);renderAdmin();
-    toast(r.active?name+" diaktifkan.":name+" dinonaktifkan.","success");}
+function editUser(name){const u=ADM.users.find(x=>x.username===name);if(!u)return;ADM.edit=Object.assign({isNew:false,password:""},u);renderAdmin();$("admName").focus();}
+async function patchUser(name,patch,msg){
+  try{const r=await run("adminSaveUser",Object.assign({isNew:false,username:name},patch));
+    const i=ADM.users.findIndex(x=>x.username===name);if(i>=0)ADM.users[i]=r;renderAdmin();toast(msg(r),"success");}
   catch(err){toast(errText(err),"error");}
 }
+function toggleUser(name){const u=ADM.users.find(x=>x.username===name);if(u)patchUser(name,{active:!u.active},r=>name+(r.active?" diaktifkan.":" dinonaktifkan."));}
+function verifyUser(name){patchUser(name,{verified:true},()=>name+" sudah diverifikasi dan bisa masuk.");}
 async function deleteUser(name){
-  const ok=await confirmBox({title:"Hapus "+name+"?",text:"Orang ini tidak akan bisa masuk lagi. Untuk memberi akses lagi, Anda perlu membuat pengguna baru.",ok:"Hapus",danger:true});
+  const ok=await confirmBox({title:"Hapus "+name+"?",text:"Akun ini akan dihapus dan tidak bisa masuk lagi. Orangnya perlu mendaftar ulang untuk memakai Soalify.",ok:"Hapus",danger:true});
   openAdmin();if(!ok)return;
   try{await run("adminDeleteUser",{username:name});ADM.users=ADM.users.filter(x=>x.username!==name);renderAdmin();toast(name+" dihapus.","success");}
   catch(err){toast(errText(err),"error");}
 }
-async function copyAccess(name,isNew){
-  const u=ADM.users.find(x=>x.username===name);if(!u)return;
-  const text="Akses Soalify\nAlamat: "+location.href.split("#")[0]+"\nUsername: "+u.username+"\nKode akses: "+u.code+(u.expires?"\nBerlaku sampai: "+fmtDate(u.expires):"");
+async function copyAccess(name,password,isNew){
+  const text="Akun Soalify\nAlamat: "+location.href.split("#")[0]+"\nUsername: "+name+"\nPassword: "+password;
   let copied=false;try{await navigator.clipboard.writeText(text);copied=true;}catch(e){}
-  toast((isNew?"Pengguna "+name+" ditambahkan. ":"")+(copied?"Username & kode akses disalin, tinggal kirim ke orangnya.":"Username: "+u.username+" · Kode: "+u.code),"success");
+  toast((isNew?"Pengguna "+name+" ditambahkan. ":"Password "+name+" diganti. ")+(copied?"Username & password disalin, tinggal kirim ke orangnya.":"Password: "+password),"success");
 }
 function errText(e){return String((e&&e.message)||e||"Terjadi kesalahan.").replace(/^Error:\s*/,"").replace(/^Exception:\s*/,"");}
 function showErr(id,text,help){const el=$(id);if(!text){el.classList.add("hidden");return;}
