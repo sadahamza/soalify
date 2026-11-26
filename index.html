@@ -621,6 +621,7 @@ const FORMATS=[
   {id:"wayground",name:"Wayground",desc:"Format kuis interaktif Wayground (Quizizz).",ext:"XLSX",icon:"gamepad",tone:"t-blue"},
   {id:"kahoot",name:"Kahoot",desc:"Format kuis berbasis permainan. Maksimal 4 opsi.",ext:"XLSX",icon:"trophy",tone:"t-red"},
   {id:"gift",name:"Moodle",desc:"Format GIFT untuk bank soal Learning Management System.",ext:"TXT · GIFT",icon:"cap",tone:"t-orange"},
+  {id:"eujian",name:"e-Ujian",desc:"Template impor bank soal e-Ujian (sheet PG_Multi_Essay).",ext:"XLSX",icon:"list",tone:"t-blue"},
   {id:"csv",name:"CSV",desc:"Format spreadsheet dan pengolahan data.",ext:"CSV",icon:"table",tone:"t-green"},
   {id:"gforms",name:"Google Forms Mode Kuis",desc:"Membuat kuis baru di Google Forms lengkap dengan kunci.",ext:"GOOGLE FORM",icon:"form",tone:"t-blue"},
   {id:"pptx",name:"PowerPoint",desc:"Satu soal per slide, tanpa kunci jawaban.",ext:"PPTX",icon:"slides",tone:"t-orange"},
@@ -1281,6 +1282,7 @@ Pembahasan: ...</pre>
       <li><b>PDF/foto:</b> dibaca dengan OCR. Format tebal/warna biasanya hilang, jadi tulis kunci sebagai teks.</li>
       <li><b>Kahoot:</b> hanya mendukung 4 opsi. Soal dengan opsi E perlu disesuaikan.</li>
       <li><b>EvalBee:</b> berupa lembar referensi kunci (nomor + jawaban), bukan format impor resmi.</li>
+      <li><b>e-Ujian:</b> semua soal diekspor sebagai PG satu jawaban (Jenis 1). Upload file langsung di menu impor Excel bank soal e-Ujian; pembahasan tidak ikut karena template tidak punya kolomnya.</li>
       <li>Gambar, tabel kompleks, dan rumus di dalam soal mungkin perlu dirapikan manual.</li></ul>
     <div class="row" style="margin-top:18px"><button class="btn btn-secondary" onclick="downloadTemplate()">${ic("download")}Unduh template</button><span class="spacer"></span><button class="btn btn-primary" onclick="closeGuide()">Mengerti</button></div>
   </div>`;
