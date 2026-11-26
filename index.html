@@ -321,6 +321,12 @@ body.locked main.wrap,body.locked .navbtn.auth{display:none!important}
 body:not(.locked) #gate{display:none}
 .navbtn.auth.admin-only{display:none}
 body.is-admin .navbtn.auth.admin-only{display:inline-flex}
+body.is-admin .navbtn.auth.user-only{display:none}
+.forgot-row{text-align:right;margin-top:8px;font-size:13px}
+.forgot-row a{font-weight:700;text-decoration:none}.forgot-row a:hover{text-decoration:underline}
+.acct-info{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px;margin:14px 0 4px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-2)}
+.acct-info dt{color:var(--muted);font-weight:600}.acct-info dd{margin:0;color:var(--ink);font-weight:600;overflow-wrap:anywhere}
+.acct-form .btn{margin-top:18px}
 .gate{max-width:420px;margin:48px auto 64px;padding:0 16px}
 .gate .card{padding:28px}
 .gate-ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;margin-bottom:16px}
@@ -479,6 +485,7 @@ body.admin-open main.wrap,body.locked .admin-view{display:none!important}
     <button class="navbtn auth" onclick="tryExample()" title="Coba langsung dengan contoh soal"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4z"/></svg><span class="t">Coba Contoh</span></button>
     <button class="navbtn" id="themeBtn" onclick="toggleTheme()" title="Ganti tema terang/gelap" aria-label="Ganti tema"></button>
     <span class="who navbtn auth" id="whoName" style="cursor:default"></span>
+    <button class="navbtn auth user-only" onclick="openAccount()" title="Akun saya & ganti password"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span class="t">Akun</span></button>
     <button class="navbtn auth" onclick="logout()" title="Keluar"><svg class="i" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg><span class="t">Keluar</span></button>
   </div>
 </header>
@@ -501,6 +508,7 @@ body.admin-open main.wrap,body.locked .admin-view{display:none!important}
       <label class="lbl" for="loginPass">Password</label>
       <div class="pw-row"><input class="field" id="loginPass" name="password" type="password" autocomplete="current-password" required>
         <button type="button" class="pw-eye" onclick="togglePw('loginPass',this)" aria-label="Tampilkan password">Lihat</button></div>
+      <div class="forgot-row"><a href="#" onclick="showGate('forgot');return false">Lupa password?</a></div>
       <div id="loginErr" class="err hidden"></div>
       <button class="btn btn-primary" id="loginBtn" type="submit">Masuk</button>
       <div class="gate-switch">Belum punya akun? <a href="#" onclick="showGate('register');return false">Daftar sekarang</a></div>
@@ -514,11 +522,14 @@ body.admin-open main.wrap,body.locked .admin-view{display:none!important}
       <input class="field" id="regName" name="name" autocomplete="name" maxlength="80" required>
       <label class="lbl" for="regEmail">Email</label>
       <input class="field" id="regEmail" name="email" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="120" required>
-      <label class="lbl" for="regUser">Username <small>(huruf kecil, angka, titik, strip; tanpa spasi)</small></label>
+      <label class="lbl" for="regUser">Username</label>
       <input class="field" id="regUser" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" minlength="3" maxlength="30" pattern="[a-zA-Z0-9._\-]{3,30}" required>
-      <label class="lbl" for="regPass">Password <small>(minimal 6 karakter)</small></label>
+      <label class="lbl" for="regPass">Password</label>
       <div class="pw-row"><input class="field" id="regPass" name="new-password" type="password" autocomplete="new-password" minlength="6" maxlength="100" required>
         <button type="button" class="pw-eye" onclick="togglePw('regPass',this)" aria-label="Tampilkan password">Lihat</button></div>
+      <label class="lbl" for="regPass2">Konfirmasi password</label>
+      <div class="pw-row"><input class="field" id="regPass2" type="password" autocomplete="new-password" maxlength="100" required>
+        <button type="button" class="pw-eye" onclick="togglePw('regPass2',this)" aria-label="Tampilkan password">Lihat</button></div>
       <div id="regErr" class="err hidden"></div>
       <button class="btn btn-primary" id="regBtn" type="submit">Daftar &amp; kirim kode akses</button>
       <div class="gate-switch">Sudah punya akun? <a href="#" onclick="showGate('login');return false">Masuk</a></div>
@@ -534,6 +545,36 @@ body.admin-open main.wrap,body.locked .admin-view{display:none!important}
       <button class="btn btn-primary" id="verifyBtn" type="submit">Aktifkan akun</button>
       <div class="gate-switch">Tidak menerima email? Cek folder Spam/Promosi, atau
         <a href="#" id="resendLink" onclick="doResend();return false">kirim ulang kode</a>.<br>
+        <a href="#" onclick="showGate('login');return false">Kembali ke Masuk</a></div>
+    </form>
+
+    <!-- LUPA PASSWORD: minta kode -->
+    <form id="forgotForm" class="hidden" onsubmit="doForgot(event)" autocomplete="on">
+      <h1>Lupa password</h1>
+      <p>Masukkan username atau email akun Anda. Kode untuk membuat password baru akan dikirim ke email akun tersebut.</p>
+      <label class="lbl" for="forgotUser">Username atau email</label>
+      <input class="field" id="forgotUser" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+      <div id="forgotErr" class="err hidden"></div>
+      <button class="btn btn-primary" id="forgotBtn" type="submit">Kirim kode reset</button>
+      <div class="gate-switch"><a href="#" onclick="showGate('login');return false">Kembali ke Masuk</a></div>
+    </form>
+
+    <!-- LUPA PASSWORD: kode + password baru -->
+    <form id="resetForm" class="hidden" onsubmit="doReset(event)" autocomplete="off">
+      <h1>Buat password baru</h1>
+      <p id="resetInfo">Kode 6 digit sudah dikirim ke email Anda.</p>
+      <label class="lbl" for="resetCode">Kode dari email</label>
+      <input class="field code-inp otp" id="resetCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="••••••" required>
+      <label class="lbl" for="resetPass">Password baru</label>
+      <div class="pw-row"><input class="field" id="resetPass" type="password" autocomplete="new-password" minlength="6" maxlength="100" required>
+        <button type="button" class="pw-eye" onclick="togglePw('resetPass',this)" aria-label="Tampilkan password">Lihat</button></div>
+      <label class="lbl" for="resetPass2">Konfirmasi password baru</label>
+      <div class="pw-row"><input class="field" id="resetPass2" type="password" autocomplete="new-password" maxlength="100" required>
+        <button type="button" class="pw-eye" onclick="togglePw('resetPass2',this)" aria-label="Tampilkan password">Lihat</button></div>
+      <div id="resetErr" class="err hidden"></div>
+      <button class="btn btn-primary" id="resetBtn" type="submit">Simpan password &amp; masuk</button>
+      <div class="gate-switch">Tidak menerima email? Cek folder Spam/Promosi, atau
+        <a href="#" id="resetResend" onclick="doForgot(null,true);return false">kirim ulang kode</a>.<br>
         <a href="#" onclick="showGate('login');return false">Kembali ke Masuk</a></div>
     </form>
 
@@ -794,7 +835,7 @@ function confirmBox(o){
 }
 /* Backend: Web App Apps Script (backend/Code.gs). Body text/plain = simple request, tanpa preflight CORS. */
 const API_URL="https://script.google.com/macros/s/AKfycbzthU16cjLeyWdMwWqjxRfukEegF0QwZbR5MJSm7WxEijvVy787hGs7Z2jz5ZOCne0d/exec";
-const PUBLIC_API={login:1,register:1,verifyEmail:1,resendCode:1,ping:1};
+const PUBLIC_API={login:1,register:1,verifyEmail:1,resendCode:1,ping:1,forgotPassword:1,resetPassword:1};
 async function run(fn,arg){
   let res;
   const auth=PUBLIC_API[fn]?undefined:(AUTH.creds?{username:AUTH.creds.username,token:AUTH.creds.token}:undefined);
@@ -817,12 +858,13 @@ function saveCreds(c){try{c?localStorage.setItem(AUTH_KEY,JSON.stringify(c)):loc
 function loadCreds(){try{const c=JSON.parse(localStorage.getItem(AUTH_KEY)||"null");return c&&c.username&&c.token?c:null;}catch(e){return null;}}
 function togglePw(id,btn){const el=$(id),show=el.type==="password";el.type=show?"text":"password";btn.textContent=show?"Sembunyikan":"Lihat";}
 function showGate(view,keepErr){
-  ["login","register","verify"].forEach(v=>$(v+"Form").classList.toggle("hidden",v!==view));
-  $("gateTabs").classList.toggle("hidden",view==="verify");
+  ["login","register","verify","forgot","reset"].forEach(v=>$(v+"Form").classList.toggle("hidden",v!==view));
+  $("gateTabs").classList.toggle("hidden",view!=="login"&&view!=="register");
   $("tabLogin").setAttribute("aria-selected",view==="login");
   $("tabRegister").setAttribute("aria-selected",view==="register");
-  if(!keepErr)["loginErr","regErr","verifyErr"].forEach(id=>showErr(id,""));
-  const first={login:$("loginUser").value?"loginPass":"loginUser",register:"regName",verify:"verifyCode"}[view];
+  if(!keepErr)["loginErr","regErr","verifyErr","forgotErr","resetErr"].forEach(id=>showErr(id,""));
+  if(view==="forgot"&&!$("forgotUser").value)$("forgotUser").value=$("loginUser").value.trim();
+  const first={login:$("loginUser").value?"loginPass":"loginUser",register:"regName",verify:"verifyCode",forgot:"forgotUser",reset:"resetCode"}[view];
   setTimeout(()=>$(first)&&$(first).focus(),50);
 }
 function unlockApp(me){
@@ -841,7 +883,7 @@ function lockApp(msg){
 }
 function onAuthed(r){
   AUTH.creds={username:r.me.username,token:r.token,role:r.me.role};saveCreds(AUTH.creds);
-  AUTH.pending=null;$("loginPass").value="";$("regPass").value="";$("verifyCode").value="";
+  AUTH.pending=null;["loginPass","regPass","regPass2","verifyCode","resetCode","resetPass","resetPass2"].forEach(id=>$(id).value="");
   unlockApp(r.me);startUsageTracker();toast("Selamat datang, "+(r.me.name&&r.me.role!=="admin"?r.me.name:r.me.username)+"!","success");
 }
 function goVerify(info){
@@ -868,6 +910,7 @@ async function doRegister(e){
     username:$("regUser").value.trim().toLowerCase(),password:$("regPass").value};
   if(!/^[a-z0-9._-]{3,30}$/.test(p.username)){showErr("regErr","Username 3–30 karakter: huruf, angka, titik, garis bawah, atau strip (tanpa spasi).");$("regUser").focus();return;}
   if(p.password.length<6){showErr("regErr","Password minimal 6 karakter.");$("regPass").focus();return;}
+  if(p.password!==$("regPass2").value){showErr("regErr","Konfirmasi password tidak sama. Ketik ulang password yang sama.");$("regPass2").select();return;}
   const btn=$("regBtn");setBusy(btn,true,"Mengirim kode ke email…");showErr("regErr","");
   try{const r=await run("register",p);$("loginUser").value=r.username;goVerify(r);toast("Kode akses dikirim ke "+r.email,"success");}
   catch(err){showErr("regErr",errText(err));}
@@ -890,6 +933,80 @@ async function doResend(){
   catch(err){showErr("verifyErr",errText(err));}
   finally{delete a.dataset.busy;a.textContent="kirim ulang kode";}
 }
+/* ---------- Lupa password ---------- */
+async function doForgot(e,resend){
+  if(e)e.preventDefault();
+  const id=resend&&AUTH.pending?AUTH.pending.username:$("forgotUser").value.trim().toLowerCase();
+  const errId=resend?"resetErr":"forgotErr";
+  if(!id){showErr(errId,"Isi username atau email akun Anda.");return;}
+  const btn=resend?$("resetResend"):$("forgotBtn");
+  if(btn.dataset.busy)return;btn.dataset.busy="1";
+  if(resend)btn.textContent="mengirim…";else setBusy(btn,true,"Mengirim kode…");
+  showErr(errId,"");
+  try{
+    const r=await run("forgotPassword",{username:id});
+    AUTH.pending=r;$("loginUser").value=r.username;
+    $("resetInfo").textContent="Kode 6 digit sudah dikirim ke "+r.email+". Kode berlaku "+(r.minutes||30)+" menit.";
+    $("resetCode").value="";showGate("reset");toast("Kode reset dikirim ke "+r.email,"success");
+  }
+  catch(err){showErr(errId,errText(err));}
+  finally{delete btn.dataset.busy;if(resend)btn.textContent="kirim ulang kode";else setBusy(btn,false);}
+}
+async function doReset(e){
+  if(e)e.preventDefault();
+  if(!AUTH.pending){showGate("forgot");return;}
+  const code=$("resetCode").value.replace(/\D/g,""),password=$("resetPass").value;
+  if(code.length!==6){showErr("resetErr","Masukkan 6 digit kode dari email.");$("resetCode").focus();return;}
+  if(password.length<6){showErr("resetErr","Password minimal 6 karakter.");$("resetPass").focus();return;}
+  if(password!==$("resetPass2").value){showErr("resetErr","Konfirmasi password tidak sama. Ketik ulang password yang sama.");$("resetPass2").select();return;}
+  const btn=$("resetBtn");setBusy(btn,true,"Menyimpan…");showErr("resetErr","");
+  try{onAuthed(await run("resetPassword",{username:AUTH.pending.username,code,password}));toast("Password baru tersimpan.","success");}
+  catch(err){showErr("resetErr",errText(err));}
+  finally{setBusy(btn,false);}
+}
+
+/* ---------- Akun saya & ganti password ---------- */
+function openAccount(){
+  const me=AUTH.me||{},m=$("modal");
+  m.innerHTML=`<div class="card modal-box" role="dialog" aria-modal="true" aria-labelledby="acT" style="width:min(460px,100%)">
+    <button class="btn btn-ghost modal-x" onclick="closeGuide()" aria-label="Tutup">${ic("x")}</button>
+    <h2 id="acT">Akun saya</h2>
+    <dl class="acct-info">
+      ${me.name?`<dt>Nama</dt><dd>${esc(me.name)}</dd>`:""}
+      <dt>Username</dt><dd>${esc(me.username||"")}</dd>
+      ${me.email?`<dt>Email</dt><dd>${esc(me.email)}</dd>`:""}
+    </dl>
+    <form class="acct-form" onsubmit="doChangePw(event)" autocomplete="off">
+      <h4>Ganti password</h4>
+      <label class="lbl" for="cpOld">Password lama</label>
+      <div class="pw-row"><input class="field" id="cpOld" type="password" autocomplete="current-password" maxlength="100" required>
+        <button type="button" class="pw-eye" onclick="togglePw('cpOld',this)" aria-label="Tampilkan password">Lihat</button></div>
+      <label class="lbl" for="cpNew">Password baru</label>
+      <div class="pw-row"><input class="field" id="cpNew" type="password" autocomplete="new-password" minlength="6" maxlength="100" required>
+        <button type="button" class="pw-eye" onclick="togglePw('cpNew',this)" aria-label="Tampilkan password">Lihat</button></div>
+      <label class="lbl" for="cpNew2">Konfirmasi password baru</label>
+      <div class="pw-row"><input class="field" id="cpNew2" type="password" autocomplete="new-password" maxlength="100" required>
+        <button type="button" class="pw-eye" onclick="togglePw('cpNew2',this)" aria-label="Tampilkan password">Lihat</button></div>
+      <div id="cpErr" class="err hidden"></div>
+      <div class="row"><button class="btn btn-primary" id="cpBtn" type="submit">Simpan password baru</button>
+        <button type="button" class="btn btn-ghost" onclick="closeGuide()">Batal</button></div>
+    </form></div>`;
+  m.classList.remove("hidden");document.body.style.overflow="hidden";
+  m.onclick=e=>{if(e.target===m)closeGuide();};
+  setTimeout(()=>$("cpOld").focus(),50);
+}
+async function doChangePw(e){
+  e.preventDefault();
+  const oldPassword=$("cpOld").value,newPassword=$("cpNew").value;
+  if(!oldPassword){showErr("cpErr","Isi password lama.");$("cpOld").focus();return;}
+  if(newPassword.length<6){showErr("cpErr","Password baru minimal 6 karakter.");$("cpNew").focus();return;}
+  if(newPassword!==$("cpNew2").value){showErr("cpErr","Konfirmasi password tidak sama. Ketik ulang password baru yang sama.");$("cpNew2").select();return;}
+  if(newPassword===oldPassword){showErr("cpErr","Password baru harus berbeda dari password lama.");$("cpNew").select();return;}
+  const btn=$("cpBtn");setBusy(btn,true,"Menyimpan…");showErr("cpErr","");
+  try{await run("changePassword",{oldPassword,newPassword});closeGuide();toast("Password berhasil diganti. Perangkat lain perlu masuk ulang.","success");}
+  catch(err){if($("cpErr")){showErr("cpErr",errText(err));setBusy(btn,false);}}
+}
+
 async function logout(){
   if(state.questions.length&&!state.results.some(r=>r.ok)&&!(await confirmBox({title:"Keluar sekarang?",text:"Soal yang sedang dikerjakan belum dikonversi dan akan hilang.",ok:"Keluar"})))return;
   flushUsage(false);run("logout").catch(()=>{});
@@ -932,7 +1049,7 @@ function startUsageTracker(){
 
 /* =================== Panel Admin =================== */
 const ADM={tab:"overview",days:30,data:null,loading:false,error:"",q:"",hUser:"",hFeat:"",edit:null};
-const FEAT_LABEL={upload:"Upload file",ketik:"Ketik / paste soal",gforms:"Google Forms",masuk:"Masuk",daftar:"Daftar akun",verifikasi:"Verifikasi email"};
+const FEAT_LABEL={upload:"Upload file",ketik:"Ketik / paste soal",gforms:"Google Forms",masuk:"Masuk",daftar:"Daftar akun",verifikasi:"Verifikasi email","reset-password":"Reset password (lupa)","ganti-password":"Ganti password"};
 function featLabel(k){if(k.indexOf("ekspor:")===0){const f=FMT[k.slice(7)];return "Ekspor "+(f?f.name:k.slice(7));}return FEAT_LABEL[k]||k;}
 function fmtDur(sec){sec=Math.round(sec||0);if(sec<60)return sec?sec+" dtk":"0 mnt";const m=Math.round(sec/60);if(m<60)return m+" mnt";const h=Math.floor(m/60),r=m%60;return h+" jam"+(r?" "+r+" mnt":"");}
 function genPassword(){
@@ -1002,7 +1119,7 @@ function renderOverview(pane,d){
     ["Fitur dipakai",t.periodEvents,"upload, ketik, ekspor, Forms","layers","t-orange"],
     ["Pendaftar baru",t.signups,"dalam "+d.days+" hari","key","t-green"]
   ];
-  const feats=Object.keys(d.features).filter(k=>!/^(masuk|daftar|verifikasi)$/.test(k))
+  const feats=Object.keys(d.features).filter(k=>!/^(masuk|daftar|verifikasi|reset-password|ganti-password)$/.test(k))
     .map(k=>({label:featLabel(k),value:d.features[k]})).sort((a,b)=>b.value-a.value);
   const top=d.users.filter(u=>u.periodSeconds>0).sort((a,b)=>b.periodSeconds-a.periodSeconds).slice(0,10)
     .map(u=>({label:u.name||u.username,value:Math.round(u.periodSeconds/6)/10,tip:"@"+u.username+" · "+fmtDur(u.periodSeconds)}));
