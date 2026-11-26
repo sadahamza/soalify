@@ -412,6 +412,7 @@ body.admin-open main.wrap,body.locked .admin-view{display:none!important}
 .adm-table td a{text-decoration:none}
 .btn.sm{padding:5px 8px;min-height:30px;font-size:12.5px;border-radius:8px}
 .btn.sm svg{width:15px;height:15px}
+.pw-show{font:600 13px ui-monospace,Consolas,monospace;color:var(--ink);background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:2px 7px}
 .pw-mask{font-size:12px;font-weight:700;color:var(--muted);background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:2px 7px}
 .adm-empty-row{text-align:center;color:var(--muted);padding:26px!important}
 @media (max-width:980px){.adm-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}
@@ -515,7 +516,7 @@ body.admin-open main.wrap,body.locked .admin-view{display:none!important}
       <input class="field" id="regEmail" name="email" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="120" required>
       <label class="lbl" for="regUser">Username <small>(huruf kecil, angka, titik, strip; tanpa spasi)</small></label>
       <input class="field" id="regUser" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" minlength="3" maxlength="30" pattern="[a-zA-Z0-9._\-]{3,30}" required>
-      <label class="lbl" for="regPass">Password <small>(minimal 6 karakter)</small></label>
+      <label class="lbl" for="regPass">Password <small>(minimal 6 karakter, gunakan password khusus untuk Soalify)</small></label>
       <div class="pw-row"><input class="field" id="regPass" name="new-password" type="password" autocomplete="new-password" minlength="6" maxlength="100" required>
         <button type="button" class="pw-eye" onclick="togglePw('regPass',this)" aria-label="Tampilkan password">Lihat</button></div>
       <div id="regErr" class="err hidden"></div>
@@ -1066,14 +1067,14 @@ function renderUsersTab(pane,d){
   const list=d.users.filter(u=>!q||(u.username+" "+u.name+" "+u.email).toLowerCase().includes(q));
   pane.innerHTML=`<div class="adm-bar"><input class="field" id="admQ" placeholder="Cari nama, email, atau username" value="${esc(ADM.q)}" oninput="ADM.q=this.value;renderUsersKeep()">
       <button class="btn btn-primary" onclick="openUserForm()">${ic("edit")}Tambah pengguna</button></div>
-    <p class="adm-note">${ic("info")}<span>Password disimpan terenkripsi (hash) sehingga tidak bisa ditampilkan, termasuk oleh admin. Gunakan <b>Reset</b> untuk membuat password baru.</span></p>
+    <p class="adm-note">${ic("info")}<span>Password akun yang mendaftar sebelum fitur ini baru tampil setelah pengguna tersebut masuk lagi. Gunakan <b>Reset</b> untuk membuat password baru.</span></p>
     <div class="card table-wrap"><table class="adm-table">
       <thead><tr><th>Nama</th><th>Email</th><th>Username</th><th>Password</th><th>Status</th><th>Terdaftar</th><th>Terakhir aktif</th><th class="num">Durasi total</th><th class="num">Fitur dipakai</th><th></th></tr></thead>
       <tbody>${list.length?list.map(u=>{const n=esc(u.username);return `<tr>
         <td><b>${u.name?esc(u.name):"<span class=muted>(tanpa nama)</span>"}</b>${u.legacy?' <span class="pill blue">Akun lama</span>':""}</td>
         <td>${u.email?`<a href="mailto:${esc(u.email)}">${esc(u.email)}</a>`:"–"}</td>
         <td>@${n}</td>
-        <td class="nowrap"><span class="pw-mask">Terenkripsi</span> <button class="btn btn-ghost sm" onclick="openUserForm('${n}',true)">Reset</button></td>
+        <td class="nowrap">${u.password?`<code class="pw-show">${esc(u.password)}</code> <button class="btn btn-ghost sm" data-pw="${esc(u.password)}" onclick="copyText(this.dataset.pw,'Password disalin')" title="Salin password">Salin</button>`:'<span class="pw-mask" title="Tampil setelah pengguna masuk lagi">Belum tersedia</span>'} <button class="btn btn-ghost sm" onclick="openUserForm('${n}',true)">Reset</button></td>
         <td>${userStatus(u)}</td>
         <td>${esc(fmtDate(u.createdAt))}</td>
         <td>${u.lastActive?esc(fmtDateTime(u.lastActive)):"–"}</td>
@@ -1087,6 +1088,7 @@ function renderUsersTab(pane,d){
           <button class="btn btn-danger-ghost sm" onclick="deleteUser('${n}')" title="Hapus">${ic("trash")}</button></td></tr>`;}).join("")
       :`<tr><td colspan="10" class="adm-empty-row">${d.users.length?"Tidak ada pengguna yang cocok.":"Belum ada pengguna."}</td></tr>`}</tbody></table></div>`;
 }
+async function copyText(t,msg){try{await navigator.clipboard.writeText(t);toast(msg,"success");}catch(e){toast(t,"info");}}
 function renderUsersKeep(){const pos=$("admQ").selectionStart;renderAdminShell();const q=$("admQ");q.focus();q.setSelectionRange(pos,pos);}
 function showHistoryFor(n){ADM.hUser=n;ADM.hFeat="";setAdminTab("history");}
 
