@@ -356,6 +356,67 @@ body.is-admin .navbtn.auth.admin-only{display:inline-flex}
 .adm-empty{text-align:center;color:var(--muted);font-size:14px;padding:22px;border:1px dashed var(--border-strong);border-radius:var(--r-sm)}
 .modal-x{float:right;margin:-6px -8px 0 0}
 
+/* ---------- Panel Admin ---------- */
+.admin-view{display:none;padding-top:24px}
+body.admin-open .admin-view{display:block}
+body.admin-open main.wrap,body.locked .admin-view{display:none!important}
+.adm-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.adm-head h1{margin:0;font-size:26px;letter-spacing:-.02em}
+.adm-head p{margin:4px 0 0;color:var(--muted);font-size:14px}
+.adm-days{width:auto;padding:9px 12px}
+.adm-tabs{margin-bottom:16px}
+#admPane.is-loading{opacity:.55;pointer-events:none;transition:opacity .2s}
+.adm-tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.adm-tile{display:flex;gap:12px;align-items:flex-start;padding:16px}
+.adm-tile .fmt-ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none}
+.adm-tile .fmt-ic svg{width:19px;height:19px}
+.adm-tile small{display:block;font-size:12.5px;font-weight:600;color:var(--muted)}
+.adm-tile b{display:block;font-size:22px;letter-spacing:-.02em;line-height:1.25;color:var(--ink)}
+.adm-tile span{display:block;font-size:12px;color:var(--faint)}
+.adm-charts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.chart-card{padding:16px 18px}
+.chart-card.wide{grid-column:1/-1}
+.chart-card h3{margin:0;font-size:15px}
+.chart-card p{margin:2px 0 10px;color:var(--muted);font-size:12.5px}
+.chart{position:relative;min-height:60px}
+.chart svg{display:block;overflow:visible}
+.chart .bar{fill:var(--primary)}
+.chart .hit{fill:transparent;cursor:default}
+.chart .hit.hit-on{fill:color-mix(in srgb,var(--primary) 8%,transparent)}
+.chart .grid{stroke:var(--border);stroke-width:1}
+.chart .base{stroke:var(--border-strong);stroke-width:1}
+.chart .axis{fill:var(--muted);font-size:11px}
+.chart-tip{position:absolute;transform:translate(-50%,-100%);background:var(--ink);color:var(--bg);font-size:12.5px;font-weight:600;padding:6px 10px;border-radius:8px;white-space:nowrap;pointer-events:none;z-index:2;box-shadow:var(--shadow-lg)}
+.chart-empty{color:var(--muted);font-size:13.5px;padding:26px 8px;text-align:center;border:1px dashed var(--border-strong);border-radius:var(--r-sm)}
+.hbars{display:flex;flex-direction:column;gap:6px}
+.hbar{display:grid;grid-template-columns:minmax(90px,38%) 1fr auto;align-items:center;gap:10px;padding:3px 4px;border-radius:8px}
+.hbar:hover,.hbar.hit-on{background:var(--surface-2)}
+.hl{font-size:13px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ht{height:14px;background:transparent;border-radius:4px;overflow:hidden}
+.hf{display:block;height:100%;background:var(--primary);border-radius:0 4px 4px 0}
+.hv{font-size:13px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;min-width:48px;text-align:right}
+.adm-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.adm-bar .field{width:auto;flex:1 1 220px;padding:10px 12px}
+.adm-note{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--muted);background:var(--soft);border-radius:var(--r-sm);padding:10px 12px;margin:0 0 12px}
+.adm-note svg{width:17px;height:17px;color:var(--primary);flex:none;margin-top:1px}
+.table-wrap{overflow-x:auto}
+.adm-table{width:100%;border-collapse:collapse;font-size:13.5px}
+.adm-table th{text-align:left;font-size:12px;font-weight:700;color:var(--muted);padding:11px 12px;border-bottom:1px solid var(--border);white-space:nowrap;background:var(--surface-2)}
+.adm-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+.adm-table tr:last-child td{border-bottom:0}
+.adm-table tbody tr:hover td{background:var(--surface-2)}
+.adm-table .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.adm-table .acts{white-space:nowrap;text-align:right}
+.adm-table .nowrap{white-space:nowrap}
+.adm-table .muted,.muted{color:var(--muted)}
+.adm-table td a{text-decoration:none}
+.btn.sm{padding:5px 8px;min-height:30px;font-size:12.5px;border-radius:8px}
+.btn.sm svg{width:15px;height:15px}
+.pw-mask{font-size:12px;font-weight:700;color:var(--muted);background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:2px 7px}
+.adm-empty-row{text-align:center;color:var(--muted);padding:26px!important}
+@media (max-width:980px){.adm-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:720px){.adm-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.adm-charts{grid-template-columns:1fr}.adm-head .row{width:100%}.adm-head .row .btn,.adm-days{flex:1 1 auto}.adm-tabs{width:100%}.adm-tabs button{flex:1;justify-content:center;font-size:13px;padding:8px 6px}}
+
 @media (max-width:860px){
   .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
   .step-label small{display:none}
@@ -407,11 +468,11 @@ body.is-admin .navbtn.auth.admin-only{display:inline-flex}
 
 <header class="nav">
   <div class="nav-in">
-    <a class="brand" href="#" onclick="resetAll();return false" aria-label="Soalify, kembali ke awal">
+    <a class="brand" href="#" onclick="closeAdmin();resetAll();return false" aria-label="Soalify, kembali ke awal">
       <span class="logo"><svg viewBox="0 0 24 24" class="i"><path d="M14 3H7a2 2 0 0 0-2 2v6"/><path d="M14 3v5h5"/><path d="M19 8v11a2 2 0 0 1-2 2h-5"/><path d="M3 17h7"/><path d="m7 14 3 3-3 3"/></svg></span>
       Soalify
     </a>
-    <button class="navbtn auth admin-only" onclick="openAdmin()" title="Kelola pengguna & kode akses"><svg class="i" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg><span class="t">Pengguna</span></button>
+    <button class="navbtn auth admin-only" onclick="openAdmin()" title="Panel admin: pengguna, statistik, riwayat"><svg class="i" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15v2M12 10v7M17 6v11"/></svg><span class="t">Admin</span></button>
     <button class="navbtn auth" onclick="openGuide()" title="Panduan"><svg class="i" viewBox="0 0 24 24"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></svg><span class="t">Panduan</span></button>
     <button class="navbtn auth" onclick="downloadTemplate()" title="Unduh template soal"><svg class="i" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg><span class="t">Template</span></button>
     <button class="navbtn auth" onclick="tryExample()" title="Coba langsung dengan contoh soal"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4z"/></svg><span class="t">Coba Contoh</span></button>
@@ -628,6 +689,26 @@ a) 4   b) 5 ✓   c) 6   d) 7"></textarea>
   </footer>
 </main>
 
+<section class="wrap admin-view" id="adminView" aria-labelledby="admTitle">
+  <div class="adm-head">
+    <div><h1 id="admTitle">Panel Admin</h1><p>Data pengguna, statistik pemakaian, dan riwayat fitur Soalify.</p></div>
+    <div class="row">
+      <select class="field adm-days" id="admDays" onchange="setAdminDays(this.value)" aria-label="Periode">
+        <option value="7">7 hari terakhir</option><option value="30">30 hari terakhir</option>
+        <option value="90">90 hari terakhir</option><option value="365">1 tahun terakhir</option></select>
+      <button class="btn btn-secondary" id="admRefresh" onclick="loadAdmin()" title="Muat ulang data"><svg class="i" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>Muat ulang</button>
+      <a class="btn btn-secondary hidden" id="admSheet" target="_blank" rel="noopener" title="Buka log aktivitas di Google Sheets">Buka log</a>
+      <button class="btn btn-primary" onclick="closeAdmin()">Kembali ke aplikasi</button>
+    </div>
+  </div>
+  <div class="seg adm-tabs" role="tablist">
+    <button role="tab" id="admTab-overview" aria-selected="true" onclick="setAdminTab('overview')">Ringkasan &amp; grafik</button>
+    <button role="tab" id="admTab-users" aria-selected="false" onclick="setAdminTab('users')">Data pengguna</button>
+    <button role="tab" id="admTab-history" aria-selected="false" onclick="setAdminTab('history')">Riwayat fitur</button>
+  </div>
+  <div id="admPane"></div>
+</section>
+
 <div class="toasts" id="toasts" aria-live="polite"></div>
 <div id="modal" class="modal hidden" onclick="if(event.target===this)closeGuide()"></div>
 
@@ -752,7 +833,7 @@ function unlockApp(me){
 }
 function lockApp(msg){
   AUTH.creds=null;AUTH.me=null;saveCreds(null);
-  document.body.classList.add("locked");document.body.classList.remove("is-admin");
+  document.body.classList.add("locked");document.body.classList.remove("is-admin","admin-open");ADM.data=null;
   if(!$("modal").classList.contains("hidden"))closeGuide();
   showGate("login");
   if(msg)showErr("loginErr",msg);
@@ -760,7 +841,7 @@ function lockApp(msg){
 function onAuthed(r){
   AUTH.creds={username:r.me.username,token:r.token,role:r.me.role};saveCreds(AUTH.creds);
   AUTH.pending=null;$("loginPass").value="";$("regPass").value="";$("verifyCode").value="";
-  unlockApp(r.me);toast("Selamat datang, "+(r.me.name&&r.me.role!=="admin"?r.me.name:r.me.username)+"!","success");
+  unlockApp(r.me);startUsageTracker();toast("Selamat datang, "+(r.me.name&&r.me.role!=="admin"?r.me.name:r.me.username)+"!","success");
 }
 function goVerify(info){
   AUTH.pending=info;
@@ -810,7 +891,7 @@ async function doResend(){
 }
 async function logout(){
   if(state.questions.length&&!state.results.some(r=>r.ok)&&!(await confirmBox({title:"Keluar sekarang?",text:"Soal yang sedang dikerjakan belum dikonversi dan akan hilang.",ok:"Keluar"})))return;
-  run("logout").catch(()=>{});
+  flushUsage(false);run("logout").catch(()=>{});
   state.questions=[];
   lockApp("");if(typeof resetAll==="function")try{resetAll();}catch(e){}
 }
@@ -820,64 +901,223 @@ async function restoreSession(){
   if(!c){lockApp("");return;}
   $("loginUser").value=c.username;
   // Tampilkan aplikasi langsung, lalu verifikasi sesi diam-diam ke server.
-  AUTH.creds=c;unlockApp({username:c.username,role:c.role||"user"});
+  AUTH.creds=c;unlockApp({username:c.username,role:c.role||"user"});startUsageTracker();
   try{const me=await run("me");unlockApp(me);}
   catch(err){/* AUTH -> run() sudah mengunci aplikasi */}
 }
 
-/* =================== Kelola pengguna (admin) =================== */
-const ADM={users:[],edit:null,loading:false,error:""};
+/* =================== Pelacak durasi pemakaian =================== */
+/* Menghitung detik aktif (tab terlihat + ada interaksi dalam 2 menit terakhir),
+   dikirim ke server tiap 5 menit dan saat tab ditutup/disembunyikan. */
+const USAGE={sec:0,lastInput:Date.now(),timer:null};
+function usageTracked(){return AUTH.creds&&AUTH.creds.token&&(AUTH.me||{}).role!=="admin";}
+function flushUsage(beacon){
+  const s=USAGE.sec;if(!s||!usageTracked())return;USAGE.sec=0;
+  const body=JSON.stringify({action:"trackTime",payload:{seconds:s},auth:{username:AUTH.creds.username,token:AUTH.creds.token}});
+  if(beacon&&navigator.sendBeacon&&navigator.sendBeacon(API_URL,new Blob([body],{type:"text/plain;charset=utf-8"})))return;
+  fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body,keepalive:true}).catch(()=>{});
+}
+function startUsageTracker(){
+  if(USAGE.timer)return;
+  const mark=()=>{USAGE.lastInput=Date.now();};
+  ["pointerdown","keydown","scroll","touchstart","mousemove"].forEach(ev=>addEventListener(ev,mark,{passive:true}));
+  USAGE.timer=setInterval(()=>{
+    if(!usageTracked()||document.visibilityState!=="visible"||Date.now()-USAGE.lastInput>120000)return;
+    USAGE.sec+=15;if(USAGE.sec>=300)flushUsage(false);
+  },15000);
+  document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")flushUsage(true);});
+  addEventListener("pagehide",()=>flushUsage(true));
+}
+
+/* =================== Panel Admin =================== */
+const ADM={tab:"overview",days:30,data:null,loading:false,error:"",q:"",hUser:"",hFeat:"",edit:null};
+const FEAT_LABEL={upload:"Upload file",ketik:"Ketik / paste soal",gforms:"Google Forms",masuk:"Masuk",daftar:"Daftar akun",verifikasi:"Verifikasi email"};
+function featLabel(k){if(k.indexOf("ekspor:")===0){const f=FMT[k.slice(7)];return "Ekspor "+(f?f.name:k.slice(7));}return FEAT_LABEL[k]||k;}
+function fmtDur(sec){sec=Math.round(sec||0);if(sec<60)return sec?sec+" dtk":"0 mnt";const m=Math.round(sec/60);if(m<60)return m+" mnt";const h=Math.floor(m/60),r=m%60;return h+" jam"+(r?" "+r+" mnt":"");}
 function genPassword(){
   const a="abcdefghjkmnpqrstuvwxyz23456789",r=new Uint32Array(8);crypto.getRandomValues(r);
   return Array.from(r,n=>a[n%a.length]).join("");
 }
 function fmtDate(s){if(!s)return"";const d=new Date(s.length===10?s+"T00:00:00":s);return isNaN(d)?s:d.toLocaleDateString("id-ID",{day:"numeric",month:"short",year:"numeric"});}
+function fmtDateTime(s){const d=new Date(s);return isNaN(d)?s:d.toLocaleString("id-ID",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"});}
 function todayISO(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+
 function openAdmin(){
-  const m=$("modal");m.classList.remove("hidden");document.body.style.overflow="hidden";
-  m.onclick=e=>{if(e.target===m)closeGuide();};
-  renderAdmin();loadUsers();
+  document.body.classList.add("admin-open");window.scrollTo({top:0});
+  renderAdminShell();if(!ADM.data)loadAdmin();
 }
-async function loadUsers(){
-  ADM.loading=true;ADM.error="";renderAdmin();
-  try{ADM.users=await run("adminListUsers");}catch(e){ADM.error=errText(e);}
-  ADM.loading=false;renderAdmin();
+function closeAdmin(){document.body.classList.remove("admin-open");window.scrollTo({top:0});}
+async function loadAdmin(){
+  ADM.loading=true;ADM.error="";renderAdminShell();
+  try{ADM.data=await run("adminStats",{days:ADM.days});}catch(e){ADM.error=errText(e);}
+  ADM.loading=false;renderAdminShell();
 }
+function setAdminTab(t){ADM.tab=t;renderAdminShell();}
+function setAdminDays(v){ADM.days=Number(v);loadAdmin();}
+function userByName(n){return((ADM.data&&ADM.data.users)||[]).find(u=>u.username===n);}
 function userStatus(u){
-  const today=todayISO();
-  if(!u.active)return['<span class="pill red">Nonaktif</span>',true];
-  if(!u.verified)return['<span class="pill orange">Belum verifikasi email</span>',true];
-  if(u.expires&&u.expires<today)return['<span class="pill orange">Kedaluwarsa</span>',true];
-  return['<span class="pill green">Aktif</span>',false];
+  if(!u.active)return'<span class="pill red">Nonaktif</span>';
+  if(!u.verified)return'<span class="pill orange">Belum verifikasi</span>';
+  if(u.expires&&u.expires<todayISO())return'<span class="pill orange">Kedaluwarsa</span>';
+  return'<span class="pill green">Aktif</span>';
 }
-function renderAdmin(){
-  const m=$("modal");if(m.classList.contains("hidden"))return;
-  const isNew=!ADM.edit||ADM.edit.isNew;
-  const f=ADM.edit||{isNew:true,username:"",name:"",email:"",password:genPassword(),expires:"",active:true};ADM.edit=f;
-  const q=(ADM.q||"").toLowerCase();
-  const shown=ADM.users.filter(u=>!q||(u.username+" "+u.name+" "+u.email).toLowerCase().includes(q));
-  const list=ADM.loading&&!ADM.users.length?`<div class="adm-empty"><span class="spin" style="display:inline-block;vertical-align:middle;margin-right:8px"></span>Memuat daftar pengguna…</div>`
-    :ADM.error?`<div class="err">${ic("alert")}<span>${esc(ADM.error)}</span></div>`
-    :!ADM.users.length?`<div class="adm-empty">Belum ada pengguna yang mendaftar.</div>`
-    :!shown.length?`<div class="adm-empty">Tidak ada pengguna yang cocok.</div>`
-    :shown.map(u=>{
-      const [status,dim]=userStatus(u),n=esc(u.username);
-      return `<div class="adm-user${dim?" off":""}">
-        <div class="u"><b>${esc(u.name||u.username)} ${status}${u.legacy?' <span class="pill blue">Akun lama</span>':""}</b>
-          <span>@${n}${u.email?" · "+esc(u.email):""}</span>
-          <span>Daftar ${esc(fmtDate(u.createdAt))} · ${u.lastLogin?"Terakhir masuk "+esc(fmtDate(u.lastLogin)):"Belum pernah masuk"}${u.expires?" · Berlaku s.d. "+esc(fmtDate(u.expires)):""}</span></div>
-        <div class="acts">
-          ${u.verified?"":`<button class="btn btn-ghost" onclick="verifyUser('${n}')" title="Aktifkan tanpa kode email">${ic("check")}Verifikasi</button>`}
-          <button class="btn btn-ghost" onclick="editUser('${n}')">${ic("edit")}Ubah</button>
-          <button class="btn btn-ghost" onclick="toggleUser('${n}')">${u.active?"Nonaktifkan":"Aktifkan"}</button>
-          <button class="btn btn-danger-ghost" onclick="deleteUser('${n}')" title="Hapus pengguna">${ic("trash")}</button>
-        </div></div>`;}).join("");
-  m.innerHTML=`<div class="card modal-box" role="dialog" aria-modal="true" aria-labelledby="admT" style="width:min(760px,100%)">
+
+function renderAdminShell(){
+  const v=$("adminView");if(!v)return;
+  const d=ADM.data;
+  ["overview","users","history"].forEach(t=>{const b=$("admTab-"+t);if(b)b.setAttribute("aria-selected",ADM.tab===t);});
+  $("admDays").value=String(ADM.days);
+  $("admRefresh").disabled=ADM.loading;
+  $("admSheet").classList.toggle("hidden",!(d&&d.logSheetUrl));if(d&&d.logSheetUrl)$("admSheet").href=d.logSheetUrl;
+  const pane=$("admPane");
+  if(ADM.loading&&!d){pane.innerHTML=`<div class="adm-empty"><span class="spin" style="display:inline-block;vertical-align:middle;margin-right:8px"></span>Memuat data…</div>`;return;}
+  if(ADM.error&&!d){pane.innerHTML=`<div class="err">${ic("alert")}<span>${esc(ADM.error)}</span></div>`;return;}
+  if(!d)return;
+  pane.classList.toggle("is-loading",ADM.loading);
+  if(ADM.tab==="overview")renderOverview(pane,d);
+  else if(ADM.tab==="users")renderUsersTab(pane,d);
+  else renderHistoryTab(pane,d);
+}
+
+/* ---------- Ringkasan ---------- */
+function bucketDaily(daily){
+  if(daily.length<=95)return daily.map(x=>Object.assign({label:fmtDate(x.date)},x));
+  const out=[];
+  for(let i=0;i<daily.length;i+=7){
+    const ch=daily.slice(i,i+7);
+    out.push({label:fmtDate(ch[0].date)+" – "+fmtDate(ch[ch.length-1].date),date:ch[0].date,
+      minutes:Math.round(ch.reduce((a,x)=>a+x.minutes,0)*10)/10,users:Math.max(...ch.map(x=>x.users)),
+      events:ch.reduce((a,x)=>a+x.events,0),signups:ch.reduce((a,x)=>a+x.signups,0)});
+  }
+  return out;
+}
+function renderOverview(pane,d){
+  const t=d.totals,weekly=d.daily.length>95;
+  const avg=t.activeUsers?t.periodSeconds/t.activeUsers:0;
+  const tiles=[
+    ["Total pengguna",t.users,t.verified+" terverifikasi","list","t-blue"],
+    ["Pengguna aktif",t.activeUsers,"dalam "+d.days+" hari","checkCircle","t-green"],
+    ["Durasi pemakaian",fmtDur(t.periodSeconds),"rata-rata "+fmtDur(avg)+" / pengguna","sparkle","t-blue"],
+    ["Fitur dipakai",t.periodEvents,"upload, ketik, ekspor, Forms","layers","t-orange"],
+    ["Pendaftar baru",t.signups,"dalam "+d.days+" hari","key","t-green"]
+  ];
+  const feats=Object.keys(d.features).filter(k=>!/^(masuk|daftar|verifikasi)$/.test(k))
+    .map(k=>({label:featLabel(k),value:d.features[k]})).sort((a,b)=>b.value-a.value);
+  const top=d.users.filter(u=>u.periodSeconds>0).sort((a,b)=>b.periodSeconds-a.periodSeconds).slice(0,10)
+    .map(u=>({label:u.name||u.username,value:Math.round(u.periodSeconds/6)/10,tip:"@"+u.username+" · "+fmtDur(u.periodSeconds)}));
+  const unit=weekly?"per minggu":"per hari";
+  pane.innerHTML=`<div class="adm-tiles">${tiles.map(x=>`<div class="card adm-tile"><span class="fmt-ic ${x[4]}">${ic(x[3])}</span>
+      <div><small>${x[0]}</small><b>${esc(x[1])}</b><span>${esc(x[2])}</span></div></div>`).join("")}</div>
+    <div class="adm-charts">
+      <div class="card chart-card wide"><h3>Durasi pemakaian ${unit}</h3><p>Total menit aktif semua pengguna</p><div class="chart" id="chMin"></div></div>
+      <div class="card chart-card"><h3>Pengguna aktif ${unit}</h3><p>${weekly?"Puncak harian dalam seminggu":"Jumlah pengguna yang memakai Soalify"}</p><div class="chart" id="chUsers"></div></div>
+      <div class="card chart-card"><h3>Pendaftar baru ${unit}</h3><p>Akun baru yang mendaftar</p><div class="chart" id="chSign"></div></div>
+      <div class="card chart-card"><h3>Fitur yang paling sering dipakai</h3><p>Jumlah pemakaian dalam ${d.days} hari</p><div class="chart" id="chFeat"></div></div>
+      <div class="card chart-card"><h3>Durasi terlama per pengguna</h3><p>10 teratas, dalam menit</p><div class="chart" id="chTop"></div></div>
+    </div>`;
+  const b=bucketDaily(d.daily);
+  drawColumns($("chMin"),b.map(x=>({label:x.label,value:x.minutes,tip:x.label+" · "+fmtDur(x.minutes*60)})),"mnt");
+  drawColumns($("chUsers"),b.map(x=>({label:x.label,value:x.users,tip:x.label+" · "+x.users+" pengguna"})),"");
+  drawColumns($("chSign"),b.map(x=>({label:x.label,value:x.signups,tip:x.label+" · "+x.signups+" pendaftar"})),"");
+  drawBars($("chFeat"),feats.map(f=>Object.assign({tip:f.label+" · "+f.value+"×"},f)),"×","Belum ada fitur yang dipakai dalam periode ini.");
+  drawBars($("chTop"),top,"mnt","Belum ada data durasi dalam periode ini.");
+}
+
+/* Grafik kolom (satu seri, satu sumbu) dengan tooltip. */
+function niceMax(v){if(v<=0)return 1;const p=Math.pow(10,Math.floor(Math.log10(v))),n=v/p;return (n<=1?1:n<=2?2:n<=5?5:10)*p;}
+function chartTip(el){let t=el.querySelector(".chart-tip");if(!t){t=document.createElement("div");t.className="chart-tip hidden";el.appendChild(t);}return t;}
+function bindTips(el){
+  const tip=chartTip(el);
+  el.querySelectorAll("[data-tip]").forEach(n=>{
+    const show=e=>{tip.textContent=n.dataset.tip;tip.classList.remove("hidden");const r=el.getBoundingClientRect(),x=(e.clientX||r.left+r.width/2)-r.left,y=(e.clientY||r.top)-r.top;
+      tip.style.left=Math.min(Math.max(x,70),r.width-70)+"px";tip.style.top=Math.max(y-12,0)+"px";el.querySelectorAll(".hit-on").forEach(o=>o.classList.remove("hit-on"));n.classList.add("hit-on");};
+    n.addEventListener("pointermove",show);n.addEventListener("pointerenter",show);
+    n.addEventListener("pointerleave",()=>{tip.classList.add("hidden");n.classList.remove("hit-on");});
+  });
+}
+function drawColumns(el,data,unit){
+  const W=Math.max(260,el.clientWidth||600),H=200,L=36,R=8,T=12,B=26,iw=W-L-R,ih=H-T-B;
+  const max=niceMax(Math.max(0,...data.map(d=>d.value))),n=data.length||1,step=iw/n,bw=Math.max(2,Math.min(28,step-2));
+  const y=v=>T+ih-(v/max)*ih;
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" role="img" aria-label="Grafik">`;
+  [0,.5,1].forEach(f=>{const v=max*f,yy=y(v);s+=`<line x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}" class="grid"/><text x="${L-6}" y="${yy+4}" text-anchor="end" class="axis">${Math.round(v*10)/10}</text>`;});
+  const every=Math.ceil(n/6);
+  data.forEach((d,i)=>{
+    const x=L+i*step+(step-bw)/2,h=Math.max(0,ih-(y(d.value)-T)),yy=T+ih-h;
+    if(h>0){const r=Math.min(4,bw/2,h);s+=`<path class="bar" d="M${x},${T+ih}V${yy+r}Q${x},${yy} ${x+r},${yy}H${x+bw-r}Q${x+bw},${yy} ${x+bw},${yy+r}V${T+ih}Z"/>`;}
+    s+=`<rect class="hit" x="${L+i*step}" y="${T}" width="${step}" height="${ih}" data-tip="${esc(d.tip)}"/>`;
+    if(i%every===0||i===n-1&&n<=8)s+=`<text x="${L+i*step+step/2}" y="${H-8}" text-anchor="middle" class="axis">${esc(String(d.label).replace(/ \d{4}$/,""))}</text>`;
+  });
+  s+=`<line x1="${L}" x2="${W-R}" y1="${T+ih}" y2="${T+ih}" class="base"/></svg>`;
+  el.innerHTML=s;bindTips(el);
+}
+/* Grafik batang horizontal dengan label nilai langsung. */
+function drawBars(el,data,unit,empty){
+  if(!data.length){el.innerHTML=`<div class="chart-empty">${esc(empty)}</div>`;return;}
+  const max=Math.max(...data.map(d=>d.value))||1;
+  el.innerHTML=`<div class="hbars">${data.map(d=>`<div class="hbar" data-tip="${esc(d.tip||d.label)}"><span class="hl" title="${esc(d.label)}">${esc(d.label)}</span>
+    <span class="ht"><span class="hf" style="width:${Math.max(2,d.value/max*100)}%"></span></span><span class="hv">${esc(d.value)}${unit&&unit!=="×"?" "+unit:unit}</span></div>`).join("")}</div>`;
+  bindTips(el);
+}
+
+/* ---------- Pengguna ---------- */
+function renderUsersTab(pane,d){
+  const q=ADM.q.toLowerCase();
+  const list=d.users.filter(u=>!q||(u.username+" "+u.name+" "+u.email).toLowerCase().includes(q));
+  pane.innerHTML=`<div class="adm-bar"><input class="field" id="admQ" placeholder="Cari nama, email, atau username" value="${esc(ADM.q)}" oninput="ADM.q=this.value;renderUsersKeep()">
+      <button class="btn btn-primary" onclick="openUserForm()">${ic("edit")}Tambah pengguna</button></div>
+    <p class="adm-note">${ic("info")}<span>Password disimpan terenkripsi (hash) sehingga tidak bisa ditampilkan, termasuk oleh admin. Gunakan <b>Reset</b> untuk membuat password baru.</span></p>
+    <div class="card table-wrap"><table class="adm-table">
+      <thead><tr><th>Nama</th><th>Email</th><th>Username</th><th>Password</th><th>Status</th><th>Terdaftar</th><th>Terakhir aktif</th><th class="num">Durasi total</th><th class="num">Fitur dipakai</th><th></th></tr></thead>
+      <tbody>${list.length?list.map(u=>{const n=esc(u.username);return `<tr>
+        <td><b>${u.name?esc(u.name):"<span class=muted>(tanpa nama)</span>"}</b>${u.legacy?' <span class="pill blue">Akun lama</span>':""}</td>
+        <td>${u.email?`<a href="mailto:${esc(u.email)}">${esc(u.email)}</a>`:"–"}</td>
+        <td>@${n}</td>
+        <td class="nowrap"><span class="pw-mask">Terenkripsi</span> <button class="btn btn-ghost sm" onclick="openUserForm('${n}',true)">Reset</button></td>
+        <td>${userStatus(u)}</td>
+        <td>${esc(fmtDate(u.createdAt))}</td>
+        <td>${u.lastActive?esc(fmtDateTime(u.lastActive)):"–"}</td>
+        <td class="num">${fmtDur(u.totalSeconds)}</td>
+        <td class="num">${u.events}</td>
+        <td class="acts">
+          ${u.verified?"":`<button class="btn btn-ghost sm" onclick="patchUser('${n}',{verified:true},()=>'${n} sudah diverifikasi.')">Verifikasi</button>`}
+          <button class="btn btn-ghost sm" onclick="showHistoryFor('${n}')" title="Lihat riwayat">Riwayat</button>
+          <button class="btn btn-ghost sm" onclick="openUserForm('${n}')">Ubah</button>
+          <button class="btn btn-ghost sm" onclick="patchUser('${n}',{active:${!u.active}},r=>'${n}'+(r.active?' diaktifkan.':' dinonaktifkan.'))">${u.active?"Nonaktifkan":"Aktifkan"}</button>
+          <button class="btn btn-danger-ghost sm" onclick="deleteUser('${n}')" title="Hapus">${ic("trash")}</button></td></tr>`;}).join("")
+      :`<tr><td colspan="10" class="adm-empty-row">${d.users.length?"Tidak ada pengguna yang cocok.":"Belum ada pengguna."}</td></tr>`}</tbody></table></div>`;
+}
+function renderUsersKeep(){const pos=$("admQ").selectionStart;renderAdminShell();const q=$("admQ");q.focus();q.setSelectionRange(pos,pos);}
+function showHistoryFor(n){ADM.hUser=n;ADM.hFeat="";setAdminTab("history");}
+
+/* ---------- Riwayat ---------- */
+function renderHistoryTab(pane,d){
+  const feats=[...new Set(d.history.map(h=>h.feature))].sort((a,b)=>featLabel(a).localeCompare(featLabel(b)));
+  const rows=d.history.filter(h=>(!ADM.hUser||h.username===ADM.hUser)&&(!ADM.hFeat||h.feature===ADM.hFeat));
+  const shown=rows.slice(0,500);
+  pane.innerHTML=`<div class="adm-bar">
+      <select class="field" onchange="ADM.hUser=this.value;renderAdminShell()"><option value="">Semua pengguna</option>${d.users.map(u=>`<option value="${esc(u.username)}" ${ADM.hUser===u.username?"selected":""}>${esc((u.name||u.username)+" (@"+u.username+")")}</option>`).join("")}</select>
+      <select class="field" onchange="ADM.hFeat=this.value;renderAdminShell()"><option value="">Semua fitur</option>${feats.map(f=>`<option value="${esc(f)}" ${ADM.hFeat===f?"selected":""}>${esc(featLabel(f))}</option>`).join("")}</select>
+      <span class="hintline">${rows.length} aktivitas${rows.length>shown.length?" · menampilkan 500 terbaru":""}</span></div>
+    <div class="card table-wrap"><table class="adm-table">
+      <thead><tr><th>Waktu</th><th>Pengguna</th><th>Fitur</th><th>Detail</th></tr></thead>
+      <tbody>${shown.length?shown.map(h=>{const u=userByName(h.username);return `<tr>
+        <td class="nowrap">${esc(fmtDateTime(h.time))}</td>
+        <td><b>${esc(u&&u.name||h.username)}</b> <span class="muted">@${esc(h.username)}</span></td>
+        <td><span class="pill blue">${esc(featLabel(h.feature))}</span></td>
+        <td>${esc(h.detail||"–")}</td></tr>`;}).join("")
+      :`<tr><td colspan="4" class="adm-empty-row">Belum ada aktivitas dalam ${d.days} hari terakhir.</td></tr>`}</tbody></table></div>`;
+}
+
+/* ---------- Form tambah / ubah pengguna (modal) ---------- */
+function openUserForm(name,resetPw){
+  const u=name?userByName(name):null;
+  ADM.edit=u?Object.assign({isNew:false},u):{isNew:true,username:"",name:"",email:"",expires:""};
+  const f=ADM.edit,isNew=f.isNew,m=$("modal");
+  m.innerHTML=`<div class="card modal-box" role="dialog" aria-modal="true" aria-labelledby="ufT" style="width:min(620px,100%)">
     <button class="btn btn-ghost modal-x" onclick="closeGuide()" aria-label="Tutup">${ic("x")}</button>
-    <h2 id="admT">Kelola Pengguna</h2>
-    <p>Pengguna mendaftar sendiri dan mengaktifkan akun lewat kode di email. Di sini Anda bisa menonaktifkan, mengubah, atau menambah akun secara manual.</p>
+    <h2 id="ufT">${isNew?"Tambah pengguna":resetPw?"Reset password @"+esc(f.username):"Ubah pengguna @"+esc(f.username)}</h2>
     <form class="adm-form" onsubmit="saveUser(event)">
-      <div class="full" style="font-weight:800;font-size:14.5px">${isNew?"Tambah pengguna manual":"Ubah pengguna @"+esc(f.username)}</div>
       <div><label class="lbl" for="admUser">Username</label>
         <input class="field" id="admUser" value="${esc(f.username)}" ${isNew?"":"disabled"} placeholder="mis. budi.guru" autocapitalize="none" spellcheck="false" required></div>
       <div><label class="lbl" for="admName">Nama lengkap</label>
@@ -885,23 +1125,22 @@ function renderAdmin(){
       <div><label class="lbl" for="admEmail">Email <small>(opsional)</small></label>
         <input class="field" id="admEmail" type="email" value="${esc(f.email)}" maxlength="120" autocapitalize="none"></div>
       <div><label class="lbl" for="admPass">${isNew?"Password":"Password baru <small>(kosong = tidak diubah)</small>"}</label>
-        <div class="code-row"><input class="field" id="admPass" value="${isNew?esc(f.password):""}" ${isNew?"required":""} minlength="6" autocomplete="off">
+        <div class="code-row"><input class="field" id="admPass" value="${isNew||resetPw?genPassword():""}" ${isNew?"required":""} minlength="6" autocomplete="off">
         <button type="button" class="btn btn-secondary" onclick="$('admPass').value=genPassword()" title="Buat password acak">${ic("refresh")}</button></div></div>
       <div><label class="lbl" for="admExp">Berlaku sampai <small>(kosong = selamanya)</small></label>
         <input class="field" id="admExp" type="date" value="${esc(f.expires)}"></div>
       <div id="admErr" class="err hidden full"></div>
-      <div class="full row" style="margin-top:14px">
-        <button class="btn btn-primary" id="admSave" type="submit">${isNew?"Tambah pengguna":"Simpan perubahan"}</button>
-        ${isNew?"":'<button type="button" class="btn btn-ghost" onclick="ADM.edit=null;renderAdmin()">Batal</button>'}
-      </div>
-    </form>
-    <div class="row" style="margin-top:20px;justify-content:space-between"><b>Daftar pengguna (${ADM.users.length})</b>
-      <div class="row"><input class="field" id="admQ" placeholder="Cari nama, username, email" value="${esc(ADM.q||"")}" oninput="ADM.q=this.value;renderAdminKeepFocus()" style="width:220px;padding:8px 12px">
-      <button class="btn btn-ghost" onclick="loadUsers()" ${ADM.loading?"disabled":""}>${ic("refresh")}Muat ulang</button></div></div>
-    <div class="adm-list">${list}</div>
-  </div>`;
+      <div class="full row" style="margin-top:14px"><button class="btn btn-primary" id="admSave" type="submit">${isNew?"Tambah pengguna":"Simpan"}</button>
+        <button type="button" class="btn btn-ghost" onclick="closeGuide()">Batal</button></div>
+    </form></div>`;
+  m.classList.remove("hidden");document.body.style.overflow="hidden";
+  m.onclick=e=>{if(e.target===m)closeGuide();};
+  setTimeout(()=>(resetPw?$("admPass"):isNew?$("admUser"):$("admName")).focus(),50);
 }
-function renderAdminKeepFocus(){const pos=$("admQ").selectionStart;renderAdmin();const q=$("admQ");q.focus();q.setSelectionRange(pos,pos);}
+function upsertUser(u){
+  const list=ADM.data.users,i=list.findIndex(x=>x.username===u.username),old=i>=0?list[i]:{totalSeconds:0,periodSeconds:0,events:0,lastActive:""};
+  const merged=Object.assign({},old,u);if(i>=0)list[i]=merged;else list.unshift(merged);
+}
 async function saveUser(e){
   e.preventDefault();
   const f=ADM.edit,btn=$("admSave");
@@ -909,32 +1148,27 @@ async function saveUser(e){
     name:$("admName").value.trim(),email:$("admEmail").value.trim().toLowerCase(),password:$("admPass").value,expires:$("admExp").value};
   setBusy(btn,true,"Menyimpan…");showErr("admErr","");
   try{
-    const u=await run("adminSaveUser",p);
-    const i=ADM.users.findIndex(x=>x.username===u.username);
-    if(i>=0)ADM.users[i]=u;else ADM.users.unshift(u);
-    ADM.edit=null;renderAdmin();
+    const u=await run("adminSaveUser",p);upsertUser(u);closeGuide();renderAdminShell();
     if(p.password)copyAccess(u.username,p.password,p.isNew);else toast("Perubahan disimpan.","success");
   }catch(err){setBusy(btn,false);showErr("admErr",errText(err));}
 }
-function editUser(name){const u=ADM.users.find(x=>x.username===name);if(!u)return;ADM.edit=Object.assign({isNew:false,password:""},u);renderAdmin();$("admName").focus();}
 async function patchUser(name,patch,msg){
-  try{const r=await run("adminSaveUser",Object.assign({isNew:false,username:name},patch));
-    const i=ADM.users.findIndex(x=>x.username===name);if(i>=0)ADM.users[i]=r;renderAdmin();toast(msg(r),"success");}
+  try{const r=await run("adminSaveUser",Object.assign({isNew:false,username:name},patch));upsertUser(r);renderAdminShell();toast(msg(r),"success");}
   catch(err){toast(errText(err),"error");}
 }
-function toggleUser(name){const u=ADM.users.find(x=>x.username===name);if(u)patchUser(name,{active:!u.active},r=>name+(r.active?" diaktifkan.":" dinonaktifkan."));}
-function verifyUser(name){patchUser(name,{verified:true},()=>name+" sudah diverifikasi dan bisa masuk.");}
 async function deleteUser(name){
-  const ok=await confirmBox({title:"Hapus "+name+"?",text:"Akun ini akan dihapus dan tidak bisa masuk lagi. Orangnya perlu mendaftar ulang untuk memakai Soalify.",ok:"Hapus",danger:true});
-  openAdmin();if(!ok)return;
-  try{await run("adminDeleteUser",{username:name});ADM.users=ADM.users.filter(x=>x.username!==name);renderAdmin();toast(name+" dihapus.","success");}
+  const ok=await confirmBox({title:"Hapus "+name+"?",text:"Akun ini akan dihapus dan tidak bisa masuk lagi. Riwayat aktivitasnya tetap tersimpan di log.",ok:"Hapus",danger:true});
+  if(!ok)return;
+  try{await run("adminDeleteUser",{username:name});ADM.data.users=ADM.data.users.filter(x=>x.username!==name);renderAdminShell();toast(name+" dihapus.","success");}
   catch(err){toast(errText(err),"error");}
 }
 async function copyAccess(name,password,isNew){
-  const text="Akun Soalify\nAlamat: "+location.href.split("#")[0]+"\nUsername: "+name+"\nPassword: "+password;
+  const text="Akun Soalify\nAlamat: "+location.href.split("#")[0].split("?")[0]+"\nUsername: "+name+"\nPassword: "+password;
   let copied=false;try{await navigator.clipboard.writeText(text);copied=true;}catch(e){}
   toast((isNew?"Pengguna "+name+" ditambahkan. ":"Password "+name+" diganti. ")+(copied?"Username & password disalin, tinggal kirim ke orangnya.":"Password: "+password),"success");
 }
+let admResizeT=null;
+addEventListener("resize",()=>{clearTimeout(admResizeT);admResizeT=setTimeout(()=>{if(document.body.classList.contains("admin-open")&&ADM.tab==="overview")renderAdminShell();},200);});
 function errText(e){return String((e&&e.message)||e||"Terjadi kesalahan.").replace(/^Error:\s*/,"").replace(/^Exception:\s*/,"");}
 function showErr(id,text,help){const el=$(id);if(!text){el.classList.add("hidden");return;}
   el.innerHTML=ic("alert")+"<span>"+esc(text)+(help?' <a href="#" onclick="openGuide();return false">Lihat panduan format soal</a>':"")+"</span>";el.classList.remove("hidden");}
