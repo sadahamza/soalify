@@ -322,6 +322,19 @@ body:not(.locked) #gate{display:none}
 .navbtn.auth.admin-only{display:none}
 body.is-admin .navbtn.auth.admin-only{display:inline-flex}
 body.is-admin .navbtn.auth.user-only{display:none}
+.navbtn.auth.guest-only{display:none}
+body.is-guest .navbtn.auth.guest-only{display:inline-flex}
+body.is-guest .navbtn.auth.member-only{display:none!important}
+.guest-bar{display:none;align-items:center;gap:12px;flex-wrap:wrap;margin:20px 0 0;padding:12px 16px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--soft);font-size:14px;color:var(--ink)}
+body.is-guest .guest-bar{display:flex}
+.guest-bar svg{width:20px;height:20px;color:var(--primary);flex:none}
+.guest-bar .gb-text{flex:1 1 260px}
+.guest-bar .gb-text b{font-weight:700}
+.guest-bar .row{gap:8px}
+.guest-bar.out{border-color:color-mix(in srgb,var(--danger,#e5484d) 40%,transparent)}
+.guest-bar.out svg{color:var(--danger,#e5484d)}
+.guest-back{margin-top:16px;padding-top:14px;border-top:1px solid var(--border);text-align:center;font-size:13.5px}
+.guest-back a{font-weight:700;text-decoration:none}.guest-back a:hover{text-decoration:underline}
 .forgot-row{text-align:right;margin-top:8px;font-size:13px}
 .forgot-row a{font-weight:700;text-decoration:none}.forgot-row a:hover{text-decoration:underline}
 .acct-info{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px;margin:14px 0 4px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-2)}
@@ -484,9 +497,10 @@ body.admin-open main.wrap,body.locked .admin-view{display:none!important}
     <button class="navbtn auth" onclick="downloadTemplate()" title="Unduh template soal"><svg class="i" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg><span class="t">Template</span></button>
     <button class="navbtn auth" onclick="tryExample()" title="Coba langsung dengan contoh soal"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4z"/></svg><span class="t">Coba Contoh</span></button>
     <button class="navbtn" id="themeBtn" onclick="toggleTheme()" title="Ganti tema terang/gelap" aria-label="Ganti tema"></button>
-    <span class="who navbtn auth" id="whoName" style="cursor:default"></span>
-    <button class="navbtn auth user-only" onclick="openAccount()" title="Akun saya & ganti password"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span class="t">Akun</span></button>
-    <button class="navbtn auth" onclick="logout()" title="Keluar"><svg class="i" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg><span class="t">Keluar</span></button>
+    <button class="navbtn auth guest-only" onclick="openAuth('register')" title="Daftar atau masuk"><svg class="i" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="m10 17 5-5-5-5"/><path d="M15 12H3"/></svg><span class="t">Masuk / Daftar</span></button>
+    <span class="who navbtn auth member-only" id="whoName" style="cursor:default"></span>
+    <button class="navbtn auth user-only member-only" onclick="openAccount()" title="Akun saya & ganti password"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span class="t">Akun</span></button>
+    <button class="navbtn auth member-only" onclick="logout()" title="Keluar"><svg class="i" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg><span class="t">Keluar</span></button>
   </div>
 </header>
 
@@ -578,10 +592,17 @@ body.admin-open main.wrap,body.locked .admin-view{display:none!important}
         <a href="#" onclick="showGate('login');return false">Kembali ke Masuk</a></div>
     </form>
 
+    <div class="guest-back" id="guestBack"><a href="#" id="guestBackLink" onclick="enterGuest();return false">Coba dulu tanpa akun</a> <span id="guestBackInfo" class="muted"></span></div>
   </div>
 </section>
 
 <main class="wrap">
+  <div class="guest-bar" id="guestBar" role="status">
+    <svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    <span class="gb-text" id="guestText">Mode tamu.</span>
+    <span class="row"><button class="btn btn-primary sm" onclick="openAuth('register')">Daftar gratis</button>
+      <button class="btn btn-secondary sm" onclick="openAuth('login')">Masuk</button></span>
+  </div>
   <section class="hero">
     <span class="badge"><svg class="i" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>EDUCATION PRODUCTIVITY TOOL</span>
     <h1>Satu Klik, Ribuan Soal Siap Tempur</h1>
@@ -838,7 +859,7 @@ const API_URL="https://script.google.com/macros/s/AKfycbzthU16cjLeyWdMwWqjxRfukE
 const PUBLIC_API={login:1,register:1,verifyEmail:1,resendCode:1,ping:1,forgotPassword:1,resetPassword:1};
 async function run(fn,arg){
   let res;
-  const auth=PUBLIC_API[fn]?undefined:(AUTH.creds?{username:AUTH.creds.username,token:AUTH.creds.token}:undefined);
+  const auth=PUBLIC_API[fn]?undefined:(AUTH.creds?{username:AUTH.creds.username,token:AUTH.creds.token}:{guest:guestId()});
   try{res=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:fn,payload:arg||{},auth})});}
   catch(e){throw new Error("Tidak dapat terhubung ke server. Periksa koneksi internet.");}
   let out;try{out=await res.json();}catch(e){throw new Error("Respons server tidak valid (HTTP "+res.status+").");}
@@ -846,8 +867,10 @@ async function run(fn,arg){
     const err=new Error((out&&out.error)||"Terjadi kesalahan di server.");
     err.code=out&&out.code;err.extra=out&&out.extra;
     if(err.code==="AUTH"&&!PUBLIC_API[fn])lockApp(err.message);
+    if(err.code==="GUEST_LIMIT"&&!AUTH.creds){GUEST.used=GUEST.limit;saveGuest();openAuth("register",err.message);}
     throw err;
   }
+  if(out.data&&out.data.guest&&!AUTH.creds)setGuest(out.data.guest);
   return out.data;
 }
 
@@ -871,12 +894,13 @@ function unlockApp(me){
   AUTH.me=me;
   document.body.classList.remove("locked");
   document.body.classList.toggle("is-admin",me.role==="admin");
+  document.body.classList.toggle("is-guest",me.role==="guest");
   $("whoName").textContent=me.username;
   $("whoName").title=(me.name&&me.role!=="admin"?me.name+" · ":"")+"Masuk sebagai "+me.username;
 }
 function lockApp(msg){
   AUTH.creds=null;AUTH.me=null;saveCreds(null);
-  document.body.classList.add("locked");document.body.classList.remove("is-admin","admin-open");ADM.data=null;
+  document.body.classList.add("locked");document.body.classList.remove("is-admin","is-guest","admin-open");ADM.data=null;renderGuest();
   if(!$("modal").classList.contains("hidden"))closeGuide();
   showGate("login");
   if(msg)showErr("loginErr",msg);
@@ -1012,16 +1036,67 @@ async function logout(){
   flushUsage(false);run("logout").catch(()=>{});
   state.questions=[];
   lockApp("");if(typeof resetAll==="function")try{resetAll();}catch(e){}
+  enterGuest();toast("Anda sudah keluar.","success");
 }
 async function restoreSession(){
   const c=loadCreds();
   saveCreds(c); // buang data login format lama (kode akses) bila ada
-  if(!c){lockApp("");return;}
+  if(!c){enterGuest();return;}
   $("loginUser").value=c.username;
   // Tampilkan aplikasi langsung, lalu verifikasi sesi diam-diam ke server.
   AUTH.creds=c;unlockApp({username:c.username,role:c.role||"user"});startUsageTracker();
   try{const me=await run("me");unlockApp(me);}
   catch(err){/* AUTH -> run() sudah mengunci aplikasi */}
+}
+
+/* =================== Mode tamu (belum mendaftar) =================== */
+/* Tamu boleh membaca soal GUEST.limit kali (contoh soal tidak dihitung), lalu harus daftar/masuk.
+   Penghitung utama ada di server (per ID tamu); localStorage hanya untuk tampilan cepat. */
+const GUEST={id:null,used:0,limit:2};
+const GUEST_KEY="sc-guest";
+function guestId(){
+  if(GUEST.id)return GUEST.id;
+  let g=null;try{g=JSON.parse(localStorage.getItem(GUEST_KEY)||"null");}catch(e){}
+  if(!g||!/^[a-z0-9]{16,40}$/.test(g.id||"")){
+    const a=new Uint8Array(12);crypto.getRandomValues(a);
+    g={id:[...a].map(b=>b.toString(16).padStart(2,"0")).join(""),used:0};
+  }
+  GUEST.id=g.id;GUEST.used=Number(g.used)||0;saveGuest();return GUEST.id;
+}
+function saveGuest(){try{localStorage.setItem(GUEST_KEY,JSON.stringify({id:GUEST.id,used:GUEST.used}));}catch(e){}}
+function guestLeft(){return Math.max(0,GUEST.limit-GUEST.used);}
+function setGuest(g){GUEST.used=Math.max(Number(g.used)||0,0);GUEST.limit=Number(g.limit)||GUEST.limit;saveGuest();renderGuest();}
+function renderGuest(){
+  guestId();
+  const left=guestLeft(),bar=$("guestBar");
+  bar.classList.toggle("out",!left);
+  $("guestText").innerHTML=left
+    ?"<b>Mode tamu:</b> sisa <b>"+left+" dari "+GUEST.limit+"</b> kali pemakaian tanpa akun. Daftar gratis untuk memakai Soalify tanpa batas."
+    :"<b>Kesempatan mencoba tanpa akun sudah habis.</b> Daftar gratis atau masuk untuk membaca soal lagi.";
+  $("guestBackLink").textContent=left?"Coba dulu tanpa akun":"Kembali ke halaman utama";
+  $("guestBackInfo").textContent=left?"(sisa "+left+" kali)":"";
+  $("guestBack").classList.toggle("hidden",!!AUTH.creds);
+}
+function enterGuest(){
+  guestId();
+  AUTH.me={username:"Tamu",name:"Tamu",role:"guest"};
+  unlockApp(AUTH.me);renderGuest();
+  run("guestStatus",{id:GUEST.id}).then(setGuest).catch(()=>{});
+}
+/** Buka halaman daftar/masuk. Soal yang sedang dikerjakan tetap tersimpan. */
+function openAuth(view,msg){
+  view=view||"register";
+  if(!$("modal").classList.contains("hidden"))closeGuide();
+  document.body.classList.add("locked");document.body.classList.remove("admin-open");
+  renderGuest();showGate(view);
+  if(msg)showErr(view==="login"?"loginErr":"regErr",msg);
+  window.scrollTo({top:0});
+}
+/** true = tamu sudah tidak boleh membaca soal baru (halaman daftar dibuka). */
+function guestBlocked(isExample){
+  if(AUTH.creds||isExample||guestLeft()>0)return false;
+  openAuth("register","Kesempatan mencoba tanpa akun ("+GUEST.limit+" kali) sudah habis. Daftar gratis atau masuk untuk terus memakai Soalify.");
+  return true;
 }
 
 /* =================== Pelacak durasi pemakaian =================== */
@@ -1114,7 +1189,7 @@ function renderOverview(pane,d){
   const avg=t.activeUsers?t.periodSeconds/t.activeUsers:0;
   const tiles=[
     ["Total pengguna",t.users,t.verified+" terverifikasi","list","t-blue"],
-    ["Pengguna aktif",t.activeUsers,"dalam "+d.days+" hari","checkCircle","t-green"],
+    ["Pengguna aktif",t.activeUsers,"dalam "+d.days+" hari"+(t.guests?" · "+t.guests+" tamu":""),"checkCircle","t-green"],
     ["Durasi pemakaian",fmtDur(t.periodSeconds),"rata-rata "+fmtDur(avg)+" / pengguna","sparkle","t-blue"],
     ["Fitur dipakai",t.periodEvents,"upload, ketik, ekspor, Forms","layers","t-orange"],
     ["Pendaftar baru",t.signups,"dalam "+d.days+" hari","key","t-green"]
@@ -1396,6 +1471,7 @@ async function okToReplace(){
 }
 async function readSelectedFile(){
   const f=state.file;if(!f||state.busy)return;
+  if(guestBlocked())return;
   if(!(await okToReplace()))return;
   showErr("inputErr","");
   const ocr=/\.(pdf|jpe?g|png|gif)$/i.test(f.name);
@@ -1414,6 +1490,7 @@ async function parsePasted(){
   if(state.busy)return;
   const text=$("pasteText").value;
   if(!text.trim()){showErr("inputErr","Ketik atau paste soal terlebih dahulu.");$("pasteText").focus();return;}
+  if(guestBlocked(text.replace(/\r\n/g,"\n").trim()===EXAMPLE.trim()))return;
   if(!(await okToReplace()))return;
   showErr("inputErr","");
   startLoading("Mendeteksi soal",["Membaca teks…","Mendeteksi soal dan kunci jawaban…"]);
