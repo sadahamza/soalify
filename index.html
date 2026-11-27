@@ -1052,7 +1052,7 @@ async function restoreSession(){
 /* =================== Mode tamu (belum mendaftar) =================== */
 /* Tamu boleh membaca soal GUEST.limit kali (contoh soal tidak dihitung), lalu harus daftar/masuk.
    Penghitung utama ada di server (per ID tamu); localStorage hanya untuk tampilan cepat. */
-const GUEST={id:null,used:0,limit:2};
+const GUEST={id:null,used:0,limit:1};
 const GUEST_KEY="sc-guest";
 function guestId(){
   if(GUEST.id)return GUEST.id;
@@ -1071,10 +1071,10 @@ function renderGuest(){
   const left=guestLeft(),bar=$("guestBar");
   bar.classList.toggle("out",!left);
   $("guestText").innerHTML=left
-    ?"<b>Mode tamu:</b> sisa <b>"+left+" dari "+GUEST.limit+"</b> kali pemakaian tanpa akun. Daftar gratis untuk memakai Soalify tanpa batas."
+    ?"<b>Mode tamu:</b> Anda bisa mencoba <b>"+left+" kali</b> tanpa akun. Daftar gratis untuk memakai Soalify tanpa batas."
     :"<b>Kesempatan mencoba tanpa akun sudah habis.</b> Daftar gratis atau masuk untuk membaca soal lagi.";
   $("guestBackLink").textContent=left?"Coba dulu tanpa akun":"Kembali ke halaman utama";
-  $("guestBackInfo").textContent=left?"(sisa "+left+" kali)":"";
+  $("guestBackInfo").textContent=left?"("+left+" kali)":"";
   $("guestBack").classList.toggle("hidden",!!AUTH.creds);
 }
 function enterGuest(){
